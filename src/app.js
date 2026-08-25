@@ -141,7 +141,7 @@ function chartMarkup(timeline, compactMoney) {
   ];
 
   return `
-    <svg viewBox="0 0 ${width} ${height}" aria-hidden="true" preserveAspectRatio="none">
+    <svg viewBox="0 0 ${width} ${height}" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
       <defs>
         <linearGradient id="finance-gradient" x1="0" x2="0" y1="0" y2="1">
           <stop offset="0%" stop-color="#1b6670" stop-opacity="0.13" />

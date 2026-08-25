@@ -601,7 +601,8 @@ select {
 
 .chart {
   width: 100%;
-  height: 178px;
+  height: auto;
+  aspect-ratio: 430 / 178;
   margin-top: 14px;
 }
 
@@ -831,6 +832,11 @@ footer > p {
 }
 
 @media (max-width: 980px) {
+  .input-shell input,
+  .currency-control select {
+    font-size: 1rem;
+  }
+
   .calculator-layout {
     grid-template-columns: 1fr;
     width: min(700px, calc(100% - 40px));
@@ -947,7 +953,7 @@ footer > p {
   }
 
   .chart {
-    height: 160px;
+    height: auto;
   }
 
   .explanation {
