@@ -1,0 +1,183 @@
+const EPSILON = 0.005;
+
+/** Convert a nominal annual percentage rate to a monthly rate. */
+export function aprToMonthlyRate(annualRate) {
+  return Number(annualRate) / 100 / 12;
+}
+
+/** Convert an effective annual return to its equivalent monthly return. */
+export function annualReturnToMonthlyRate(annualReturn) {
+  return Math.pow(1 + Number(annualReturn) / 100, 1 / 12) - 1;
+}
+
+export function calculateLoanPayment(principal, annualRate, months) {
+  const amount = Math.max(0, Number(principal));
+  const term = Math.max(1, Math.round(Number(months)));
+  const monthlyRate = aprToMonthlyRate(annualRate);
+
+  if (amount === 0) return 0;
+  if (Math.abs(monthlyRate) < Number.EPSILON) return amount / term;
+
+  const factor = Math.pow(1 + monthlyRate, term);
+  return amount * ((monthlyRate * factor) / (factor - 1));
+}
+
+function finite(value, fallback = 0) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : fallback;
+}
+
+function nonNegative(value) {
+  return Math.max(0, finite(value));
+}
+
+export function normalizeInputs(raw = {}) {
+  const price = nonNegative(raw.vehiclePrice);
+
+  return {
+    vehiclePrice: price,
+    downPayment: Math.min(price, nonNegative(raw.downPayment)),
+    financeApr: Math.max(0, finite(raw.financeApr)),
+    months: Math.min(360, Math.max(1, Math.round(finite(raw.months, 1)))),
+    depreciation: Math.min(100, Math.max(0, finite(raw.depreciation))),
+    financeTax: nonNegative(raw.financeTax),
+    financeMaintenance: nonNegative(raw.financeMaintenance),
+    financeInsurance: nonNegative(raw.financeInsurance),
+    leaseMonthly: nonNegative(raw.leaseMonthly),
+    leaseUpfront: nonNegative(raw.leaseUpfront),
+    leaseTax: nonNegative(raw.leaseTax),
+    leaseInsurance: nonNegative(raw.leaseInsurance),
+    investmentReturn: Math.max(-99.99, finite(raw.investmentReturn)),
+  };
+}
+
+/**
+ * Compare financing and leasing over the financing term.
+ *
+ * Both choices are assigned the same initial and monthly cash budget. The
+ * cheaper choice invests the difference. At the end, financing keeps the
+ * depreciated vehicle while leasing is assumed to return it with no equity.
+ */
+export function calculateComparison(rawInputs) {
+  const inputs = normalizeInputs(rawInputs);
+  const {
+    vehiclePrice,
+    downPayment,
+    financeApr,
+    months,
+    depreciation,
+    financeTax,
+    financeMaintenance,
+    financeInsurance,
+    leaseMonthly,
+    leaseUpfront,
+    leaseTax,
+    leaseInsurance,
+    investmentReturn,
+  } = inputs;
+
+  const principal = vehiclePrice - downPayment;
+  const loanPayment = calculateLoanPayment(principal, financeApr, months);
+  const financeOperatingMonthly =
+    (financeTax + financeMaintenance + financeInsurance) / 12;
+  const leaseOperatingMonthly = (leaseTax + leaseInsurance) / 12;
+  const financeMonthly = loanPayment + financeOperatingMonthly;
+  const leaseAllInMonthly = leaseMonthly + leaseOperatingMonthly;
+  const monthlyInvestmentRate = annualReturnToMonthlyRate(investmentReturn);
+  const monthlyLoanRate = aprToMonthlyRate(financeApr);
+  const monthlyValueFactor = Math.pow(1 - depreciation / 100, 1 / 12);
+
+  let financePortfolio = Math.max(0, leaseUpfront - downPayment);
+  let leasePortfolio = Math.max(0, downPayment - leaseUpfront);
+  let financeContributions = financePortfolio;
+  let leaseContributions = leasePortfolio;
+  let loanBalance = principal;
+  let vehicleValue = vehiclePrice;
+
+  const timeline = [
+    {
+      month: 0,
+      vehicleValue,
+      loanBalance,
+      financeEquity: vehicleValue - loanBalance,
+      financePortfolio,
+      leasePortfolio,
+      financeNet: vehicleValue - loanBalance + financePortfolio,
+      leaseNet: leasePortfolio,
+    },
+  ];
+
+  for (let month = 1; month <= months; month += 1) {
+    financePortfolio *= 1 + monthlyInvestmentRate;
+    leasePortfolio *= 1 + monthlyInvestmentRate;
+
+    if (financeMonthly < leaseAllInMonthly) {
+      const contribution = leaseAllInMonthly - financeMonthly;
+      financePortfolio += contribution;
+      financeContributions += contribution;
+    } else if (leaseAllInMonthly < financeMonthly) {
+      const contribution = financeMonthly - leaseAllInMonthly;
+      leasePortfolio += contribution;
+      leaseContributions += contribution;
+    }
+
+    if (loanBalance > EPSILON) {
+      const interest = loanBalance * monthlyLoanRate;
+      const principalPayment = Math.min(
+        loanBalance,
+        Math.max(0, loanPayment - interest),
+      );
+      loanBalance = Math.max(0, loanBalance - principalPayment);
+    }
+
+    vehicleValue *= monthlyValueFactor;
+    const financeEquity = vehicleValue - loanBalance;
+
+    timeline.push({
+      month,
+      vehicleValue,
+      loanBalance,
+      financeEquity,
+      financePortfolio,
+      leasePortfolio,
+      financeNet: financeEquity + financePortfolio,
+      leaseNet: leasePortfolio,
+    });
+  }
+
+  const financeNet = vehicleValue + financePortfolio;
+  const leaseNet = leasePortfolio;
+  const difference = financeNet - leaseNet;
+  const winner =
+    Math.abs(difference) < EPSILON
+      ? "tie"
+      : difference > 0
+        ? "finance"
+        : "lease";
+
+  return {
+    inputs,
+    winner,
+    difference,
+    advantage: Math.abs(difference),
+    principal,
+    loanPayment,
+    loanInterest: Math.max(0, loanPayment * months - principal),
+    financeOperatingMonthly,
+    leaseOperatingMonthly,
+    financeMonthly,
+    leaseAllInMonthly,
+    financeTotalPaid: downPayment + financeMonthly * months,
+    leaseTotalPaid: leaseUpfront + leaseAllInMonthly * months,
+    vehicleValue,
+    financePortfolio,
+    leasePortfolio,
+    financeContributions,
+    leaseContributions,
+    financeInvestmentGrowth: financePortfolio - financeContributions,
+    leaseInvestmentGrowth: leasePortfolio - leaseContributions,
+    financeNet,
+    leaseNet,
+    timeline,
+  };
+}

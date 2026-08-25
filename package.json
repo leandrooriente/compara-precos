@@ -1,0 +1,15 @@
+{
+  "name": "compara-precos",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A finance-vs-lease car calculator that invests the difference.",
+  "scripts": {
+    "dev": "python3 -m http.server 4173",
+    "test": "node --test",
+    "check": "npm test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
