@@ -5,15 +5,20 @@ export function aprToMonthlyRate(annualRate) {
   return Number(annualRate) / 100 / 12;
 }
 
+/** Convert an annual or monthly percentage rate to a monthly rate. */
+export function interestToMonthlyRate(rate, period = "year") {
+  return period === "month" ? Number(rate) / 100 : aprToMonthlyRate(rate);
+}
+
 /** Convert an effective annual return to its equivalent monthly return. */
 export function annualReturnToMonthlyRate(annualReturn) {
   return Math.pow(1 + Number(annualReturn) / 100, 1 / 12) - 1;
 }
 
-export function calculateLoanPayment(principal, annualRate, months) {
+export function calculateLoanPayment(principal, rate, months, period = "year") {
   const amount = Math.max(0, Number(principal));
   const term = Math.max(1, Math.round(Number(months)));
-  const monthlyRate = aprToMonthlyRate(annualRate);
+  const monthlyRate = interestToMonthlyRate(rate, period);
 
   if (amount === 0) return 0;
   if (Math.abs(monthlyRate) < Number.EPSILON) return amount / term;
@@ -46,6 +51,7 @@ export function normalizeInputs(raw = {}) {
     vehiclePrice: price,
     downPayment: Math.min(price, nonNegative(raw.downPayment)),
     financeApr: Math.max(0, finite(raw.financeApr)),
+    financeInterestPeriod: normalizePeriod(raw.financeInterestPeriod),
     months: Math.min(360, Math.max(1, Math.round(finite(raw.months, 1)))),
     depreciation: Math.min(100, Math.max(0, finite(raw.depreciation))),
     financeTax: nonNegative(raw.financeTax),
@@ -77,6 +83,7 @@ export function calculateComparison(rawInputs) {
     vehiclePrice,
     downPayment,
     financeApr,
+    financeInterestPeriod,
     months,
     depreciation,
     financeTax,
@@ -93,7 +100,12 @@ export function calculateComparison(rawInputs) {
   } = inputs;
 
   const principal = vehiclePrice - downPayment;
-  const loanPayment = calculateLoanPayment(principal, financeApr, months);
+  const loanPayment = calculateLoanPayment(
+    principal,
+    financeApr,
+    months,
+    financeInterestPeriod,
+  );
   const financeOperatingMonthly =
     financeTax / 12 +
     costPerMonth(financeMaintenance, financeMaintenancePeriod) +
@@ -110,7 +122,10 @@ export function calculateComparison(rawInputs) {
         ? "finance"
         : "lease";
   const monthlyInvestmentRate = annualReturnToMonthlyRate(investmentReturn);
-  const monthlyLoanRate = aprToMonthlyRate(financeApr);
+  const monthlyLoanRate = interestToMonthlyRate(
+    financeApr,
+    financeInterestPeriod,
+  );
   const monthlyValueFactor = Math.pow(1 - depreciation / 100, 1 / 12);
 
   const financeInitialInvestment = leaseUpfront;

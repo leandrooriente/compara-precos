@@ -7,7 +7,7 @@ Calculadora para comparar financiamento e leasing de veículos, considerando o c
 ## Recursos
 
 - Preço do veículo e prazo compartilhado pelo financiamento e pelo leasing
-- Entrada, taxa anual de juros e depreciação do veículo financiado
+- Entrada, taxa de juros mensal ou anual e depreciação do veículo financiado
 - IPVA e impostos anuais, com manutenção e seguro informados por mês ou por ano
 - Parcela mensal, valor inicial, impostos anuais e seguro opcional do leasing informado por mês ou por ano
 - Rentabilidade anual esperada configurável
@@ -35,7 +35,7 @@ patrimônio do financiamento = valor de revenda + investimentos
 patrimônio do leasing        = investimentos
 ```
 
-A taxa de juros do financiamento é tratada como uma taxa nominal anual dividida em 12 períodos mensais. A rentabilidade do investimento e a depreciação são convertidas em taxas mensais equivalentes.
+A taxa de juros do financiamento pode ser informada por mês ou por ano. Quando anual, ela é tratada como uma taxa nominal dividida em 12 períodos mensais. A rentabilidade do investimento e a depreciação são convertidas em taxas mensais equivalentes.
 
 > Esta calculadora serve apenas para planejamento e educação financeira. Ela não considera tarifas, inflação, limite de quilometragem, multas contratuais, benefícios fiscais, custos de transação ou todas as condições de cada contrato.
 

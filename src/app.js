@@ -5,6 +5,7 @@ const CURRENCY = "BRL";
 const form = document.querySelector("#calculator-form");
 const resetButton = document.querySelector("#reset-button");
 const textFields = new Set([
+  "financeInterestPeriod",
   "financeMaintenancePeriod",
   "financeInsurancePeriod",
   "leaseInsurancePeriod",
@@ -14,6 +15,7 @@ const defaultValues = {
   vehiclePrice: 150000,
   downPayment: 30000,
   financeApr: 18,
+  financeInterestPeriod: "year",
   months: 60,
   depreciation: 15,
   financeTax: 6000,

@@ -5,6 +5,7 @@ import {
   annualReturnToMonthlyRate,
   calculateComparison,
   calculateLoanPayment,
+  interestToMonthlyRate,
 } from "../src/calculator.js";
 
 const baseScenario = {
@@ -36,6 +37,15 @@ test("calculates a zero-interest installment", () => {
 
 test("calculates a standard amortizing loan payment", () => {
   closeTo(calculateLoanPayment(30000, 6, 60), 579.98);
+});
+
+test("supports monthly and annual financing interest rates", () => {
+  assert.equal(interestToMonthlyRate(1, "month"), 0.01);
+  assert.equal(interestToMonthlyRate(12, "year"), 0.01);
+  closeTo(
+    calculateLoanPayment(30000, 1, 60, "month"),
+    calculateLoanPayment(30000, 12, 60, "year"),
+  );
 });
 
 test("converts effective annual investment return to a monthly rate", () => {

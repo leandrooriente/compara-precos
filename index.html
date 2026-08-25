@@ -109,10 +109,14 @@
                 </span>
               </label>
               <label class="field">
-                <span class="field-label">Taxa de juros <small>ao ano</small></span>
+                <span class="field-label">Taxa de juros</span>
                 <span class="input-shell input-shell-suffix">
-                  <input id="finance-apr" name="financeApr" type="number" min="0" step="0.1" value="18" />
+                  <input id="finance-apr" name="financeApr" type="number" min="0" step="0.01" value="18" />
                   <span class="input-suffix">%</span>
+                  <select class="period-select" name="financeInterestPeriod" aria-label="Periodicidade da taxa de juros">
+                    <option value="year">ano</option>
+                    <option value="month">mês</option>
+                  </select>
                 </span>
               </label>
               <label class="field">
