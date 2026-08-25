@@ -66,16 +66,23 @@
             <div class="section-title-row">
               <span class="section-number">01</span>
               <div>
-                <h3 id="vehicle-title">O veículo</h3>
-                <p>Comece pelo preço total do carro.</p>
+                <h3 id="vehicle-title">O veículo e o prazo</h3>
+                <p>Valores compartilhados pelas duas opções.</p>
               </div>
             </div>
-            <div class="fields-grid one-column">
+            <div class="fields-grid">
               <label class="field">
                 <span class="field-label">Preço do veículo</span>
                 <span class="input-shell">
                   <span class="input-prefix" data-currency-symbol>R$</span>
                   <input id="vehicle-price" name="vehiclePrice" type="number" min="0" step="1000" value="150000" required />
+                </span>
+              </label>
+              <label class="field">
+                <span class="field-label">Prazo da comparação</span>
+                <span class="input-shell input-shell-suffix">
+                  <input id="months" name="months" type="number" min="1" max="360" step="1" value="60" />
+                  <span class="input-suffix">meses</span>
                 </span>
               </label>
             </div>
@@ -89,11 +96,11 @@
                   <h3 id="finance-title">Financiamento</h3>
                   <span class="tag finance-tag">O carro é seu</span>
                 </div>
-                <p>Condições do contrato e custos anuais do veículo.</p>
+                <p>Entrada, juros e custos do veículo financiado.</p>
               </div>
             </div>
 
-            <div class="fields-grid">
+            <div class="fields-grid three-columns">
               <label class="field">
                 <span class="field-label">Entrada</span>
                 <span class="input-shell">
@@ -106,13 +113,6 @@
                 <span class="input-shell input-shell-suffix">
                   <input id="finance-apr" name="financeApr" type="number" min="0" step="0.1" value="18" />
                   <span class="input-suffix">%</span>
-                </span>
-              </label>
-              <label class="field">
-                <span class="field-label">Quantidade de parcelas</span>
-                <span class="input-shell input-shell-suffix">
-                  <input id="months" name="months" type="number" min="1" max="360" step="1" value="60" />
-                  <span class="input-suffix">meses</span>
                 </span>
               </label>
               <label class="field">
