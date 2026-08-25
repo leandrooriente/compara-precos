@@ -46,10 +46,18 @@ function costPerMonth(value, period) {
 
 export function normalizeInputs(raw = {}) {
   const price = nonNegative(raw.vehiclePrice);
+  const downPayment = Math.min(price, nonNegative(raw.downPayment));
+  const leaseUpfront = nonNegative(raw.leaseUpfront);
+  const fallbackInitialCapital = downPayment + leaseUpfront;
+  const initialCapital =
+    raw.initialCapital === undefined
+      ? fallbackInitialCapital
+      : nonNegative(raw.initialCapital);
 
   return {
     vehiclePrice: price,
-    downPayment: Math.min(price, nonNegative(raw.downPayment)),
+    initialCapital,
+    downPayment,
     financeApr: Math.max(0, finite(raw.financeApr)),
     financeInterestPeriod: normalizePeriod(raw.financeInterestPeriod),
     months: Math.min(360, Math.max(1, Math.round(finite(raw.months, 1)))),
@@ -60,7 +68,7 @@ export function normalizeInputs(raw = {}) {
     financeInsurance: nonNegative(raw.financeInsurance),
     financeInsurancePeriod: normalizePeriod(raw.financeInsurancePeriod),
     leaseMonthly: nonNegative(raw.leaseMonthly),
-    leaseUpfront: nonNegative(raw.leaseUpfront),
+    leaseUpfront,
     leaseTax: nonNegative(raw.leaseTax),
     leaseMaintenance: nonNegative(raw.leaseMaintenance),
     leaseMaintenancePeriod: normalizePeriod(raw.leaseMaintenancePeriod),
@@ -73,16 +81,17 @@ export function normalizeInputs(raw = {}) {
 /**
  * Compare financing and leasing over the financing term.
  *
- * Both choices are assigned the same initial and monthly cash budget. The
- * leasing path invests the financing down payment immediately, while the
- * financing path invests any lease amount due at signing. Each month, the
- * cheaper choice invests the cost difference. At the end, financing keeps the
- * depreciated vehicle while leasing is assumed to return it with no equity.
+ * Both choices are assigned the same initial and monthly cash budget. Each
+ * path invests the initial capital left after its own upfront payment. Each
+ * month, the cheaper choice invests the cost difference. At the end, financing
+ * keeps the depreciated vehicle while leasing is assumed to return it with no
+ * equity.
  */
 export function calculateComparison(rawInputs) {
   const inputs = normalizeInputs(rawInputs);
   const {
     vehiclePrice,
+    initialCapital,
     downPayment,
     financeApr,
     financeInterestPeriod,
@@ -134,8 +143,11 @@ export function calculateComparison(rawInputs) {
   );
   const monthlyValueFactor = Math.pow(1 - depreciation / 100, 1 / 12);
 
-  const financeInitialInvestment = leaseUpfront;
-  const leaseInitialInvestment = downPayment;
+  const financeInitialInvestment = Math.max(
+    0,
+    initialCapital - downPayment,
+  );
+  const leaseInitialInvestment = Math.max(0, initialCapital - leaseUpfront);
   let financePortfolio = financeInitialInvestment;
   let leasePortfolio = leaseInitialInvestment;
   let financeContributions = financePortfolio;

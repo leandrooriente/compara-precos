@@ -164,20 +164,21 @@ test("fully amortizes the loan by the last installment", () => {
   closeTo(result.timeline.at(-1).loanBalance, 0);
 });
 
-test("matches the dated Volkswagen Nivus example", () => {
+test("matches the Volkswagen Tera example with corrected initial capital", () => {
   const result = calculateComparison({
-    vehiclePrice: 119000,
-    downPayment: 80000,
-    financeApr: 1.283,
+    vehiclePrice: 133190,
+    initialCapital: 80000,
+    downPayment: 70000,
+    financeApr: 2.281829,
     financeInterestPeriod: "month",
-    months: 24,
-    depreciation: 7,
-    financeTax: 5160,
-    financeMaintenance: 807.86,
+    months: 36,
+    depreciation: 12,
+    financeTax: 5008,
+    financeMaintenance: 724.62,
     financeMaintenancePeriod: "year",
-    financeInsurance: 4500,
+    financeInsurance: 5500,
     financeInsurancePeriod: "year",
-    leaseMonthly: 3545,
+    leaseMonthly: 2678.99,
     leaseUpfront: 0,
     leaseTax: 0,
     leaseMaintenance: 0,
@@ -187,19 +188,20 @@ test("matches the dated Volkswagen Nivus example", () => {
     investmentReturn: 10.5,
   });
 
-  closeTo(result.loanPayment, 1898.32, 0.01);
-  closeTo(result.financeMonthly, 2770.64, 0.01);
-  closeTo(result.leaseAllInMonthly, 3545);
-  closeTo(result.monthlyDifference, 774.36, 0.01);
-  closeTo(result.vehicleValue, 102923.1);
-  closeTo(result.leasePortfolio, 97682);
-  closeTo(result.financePortfolio, 20484.64, 0.2);
-  closeTo(result.financeNet, 123407.74, 0.2);
-  closeTo(result.leaseNet, 97682);
-  closeTo(result.advantage, 25725.74, 0.2);
-  closeTo(result.leaseBreakEvenMonthly, 2573, 1);
-  assert.equal(result.winner, "finance");
-  assert.equal(result.monthlyInvestmentRecipient, "finance");
+  closeTo(result.principal, 63190);
+  closeTo(result.loanPayment, 2592.71, 0.01);
+  closeTo(result.financeMonthly, 3528.76, 0.01);
+  closeTo(result.leaseAllInMonthly, 2678.99);
+  closeTo(result.monthlyDifference, 849.77, 0.01);
+  closeTo(result.leaseTotalPaid, 96443.64);
+  closeTo(result.vehicleValue, 90765.26, 0.01);
+  closeTo(result.financeInitialInvestment, 10000);
+  closeTo(result.leaseInitialInvestment, 80000);
+  closeTo(result.financeNet, 104257.58, 0.01);
+  closeTo(result.leaseNet, 143457.8, 0.01);
+  closeTo(result.advantage, 39200.22, 0.01);
+  assert.equal(result.winner, "lease");
+  assert.equal(result.monthlyInvestmentRecipient, "lease");
 });
 
 test("returns the option with the greater ending net value", () => {

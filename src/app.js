@@ -1,6 +1,6 @@
 import { calculateComparison } from "./calculator.js";
 
-const STORAGE_KEY = "compara-cenario-pt-br-v3";
+const STORAGE_KEY = "compara-cenario-pt-br-v4";
 const CURRENCY = "BRL";
 const form = document.querySelector("#calculator-form");
 const resetButton = document.querySelector("#reset-button");
@@ -13,18 +13,19 @@ const textFields = new Set([
 ]);
 
 const defaultValues = {
-  vehiclePrice: 119000,
-  downPayment: 80000,
-  financeApr: 1.283,
+  vehiclePrice: 133190,
+  initialCapital: 80000,
+  downPayment: 70000,
+  financeApr: 2.281829,
   financeInterestPeriod: "month",
-  months: 24,
-  depreciation: 7,
-  financeTax: 5160,
-  financeMaintenance: 807.86,
+  months: 36,
+  depreciation: 12,
+  financeTax: 5008,
+  financeMaintenance: 724.62,
   financeMaintenancePeriod: "year",
-  financeInsurance: 4500,
+  financeInsurance: 5500,
   financeInsurancePeriod: "year",
-  leaseMonthly: 3545,
+  leaseMonthly: 2678.99,
   leaseUpfront: 0,
   leaseTax: 0,
   leaseMaintenance: 0,
@@ -253,6 +254,24 @@ function render() {
     .closest(".input-shell")
     .classList.toggle("is-invalid", invalidDownPayment);
   document.querySelector("#down-payment-error").hidden = !invalidDownPayment;
+
+  const initialCapital = form.elements.namedItem("initialCapital");
+  const requiredInitialCapital = Math.max(
+    Number(downPayment.value),
+    Number(form.elements.namedItem("leaseUpfront").value),
+  );
+  const invalidInitialCapital =
+    Number(initialCapital.value) < requiredInitialCapital;
+  initialCapital.setCustomValidity(
+    invalidInitialCapital
+      ? "O capital inicial deve cobrir o maior desembolso inicial."
+      : "",
+  );
+  initialCapital
+    .closest(".input-shell")
+    .classList.toggle("is-invalid", invalidInitialCapital);
+  document.querySelector("#initial-capital-error").hidden =
+    !invalidInitialCapital;
 
   saveScenario(scenario);
 }
