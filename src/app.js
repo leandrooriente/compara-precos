@@ -1,6 +1,6 @@
 import { calculateComparison } from "./calculator.js";
 
-const STORAGE_KEY = "compara-cenario-pt-br-v2";
+const STORAGE_KEY = "compara-cenario-pt-br-v3";
 const CURRENCY = "BRL";
 const form = document.querySelector("#calculator-form");
 const resetButton = document.querySelector("#reset-button");
@@ -13,25 +13,25 @@ const textFields = new Set([
 ]);
 
 const defaultValues = {
-  vehiclePrice: 150000,
-  downPayment: 30000,
-  financeApr: 18,
-  financeInterestPeriod: "year",
-  months: 60,
-  depreciation: 15,
-  financeTax: 6000,
-  financeMaintenance: 3000,
+  vehiclePrice: 119000,
+  downPayment: 80000,
+  financeApr: 1.283,
+  financeInterestPeriod: "month",
+  months: 24,
+  depreciation: 7,
+  financeTax: 5160,
+  financeMaintenance: 807.86,
   financeMaintenancePeriod: "year",
-  financeInsurance: 5000,
+  financeInsurance: 4500,
   financeInsurancePeriod: "year",
-  leaseMonthly: 3500,
+  leaseMonthly: 3545,
   leaseUpfront: 0,
   leaseTax: 0,
   leaseMaintenance: 0,
   leaseMaintenancePeriod: "year",
   leaseInsurance: 0,
   leaseInsurancePeriod: "year",
-  investmentReturn: 10,
+  investmentReturn: 10.5,
 };
 
 const LOCALE = "pt-BR";
@@ -76,7 +76,8 @@ function getFormatters() {
     money: new Intl.NumberFormat(LOCALE, {
       style: "currency",
       currency: CURRENCY,
-      maximumFractionDigits: 0,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
     }),
     compactMoney: new Intl.NumberFormat(LOCALE, {
       style: "currency",
@@ -200,10 +201,16 @@ function render() {
   setText("#finance-net", money.format(result.financeNet));
   setText("#lease-net", money.format(result.leaseNet));
   setText("#chart-period", `${result.inputs.months} meses`);
+  setText("#finance-principal", money.format(result.principal));
+  setText("#finance-payment", money.format(result.loanPayment));
   setText("#finance-monthly", money.format(result.financeMonthly));
   setText("#lease-monthly-result", money.format(result.leaseAllInMonthly));
   setText("#finance-total", money.format(result.financeTotalPaid));
   setText("#lease-total", money.format(result.leaseTotalPaid));
+  setText(
+    "#lease-break-even",
+    money.format(result.leaseBreakEvenMonthly),
+  );
   setText("#finance-portfolio", money.format(result.financePortfolio));
   setText("#lease-portfolio", money.format(result.leasePortfolio));
   setText("#vehicle-value", money.format(result.vehicleValue));

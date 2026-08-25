@@ -308,6 +308,21 @@ select:focus-visible {
   font-weight: 700;
 }
 
+.example-reference {
+  margin: 15px 0 0;
+  color: var(--muted);
+  font-size: 0.63rem;
+  line-height: 1.45;
+}
+
+.example-reference strong {
+  color: var(--ink);
+}
+
+.lease-reference {
+  max-width: 560px;
+}
+
 .subsection-label {
   margin: 28px 0 15px;
   padding-top: 18px;

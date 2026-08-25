@@ -48,17 +48,21 @@
                 <span class="field-label">Preço do veículo</span>
                 <span class="input-shell">
                   <span class="input-prefix">R$</span>
-                  <input id="vehicle-price" name="vehiclePrice" type="number" min="0" step="1000" value="150000" required />
+                  <input id="vehicle-price" name="vehiclePrice" type="number" min="0" step="1000" value="119000" required />
                 </span>
               </label>
               <label class="field">
                 <span class="field-label">Prazo da comparação</span>
                 <span class="input-shell">
-                  <input id="months" name="months" type="number" min="1" max="360" step="1" value="60" />
+                  <input id="months" name="months" type="number" min="1" max="360" step="1" value="24" />
                   <span class="input-suffix">meses</span>
                 </span>
               </label>
             </div>
+            <p class="example-reference">
+              <strong>Exemplo datado:</strong> Volkswagen Nivus Sense 200 TSI ·
+              Rio de Janeiro · referência em 25/08/2026.
+            </p>
           </section>
 
           <section class="form-section option-section finance-section" aria-labelledby="finance-title">
@@ -76,25 +80,25 @@
                 <span class="field-label">Entrada</span>
                 <span class="input-shell">
                   <span class="input-prefix">R$</span>
-                  <input id="down-payment" name="downPayment" type="number" min="0" step="1000" value="30000" aria-describedby="down-payment-error" />
+                  <input id="down-payment" name="downPayment" type="number" min="0" step="1000" value="80000" aria-describedby="down-payment-error" />
                 </span>
                 <small id="down-payment-error" class="field-error" hidden>A entrada não pode superar o preço do veículo.</small>
               </label>
               <label class="field">
                 <span class="field-label">Taxa de juros</span>
                 <span class="input-shell">
-                  <input id="finance-apr" name="financeApr" type="number" min="0" step="0.01" value="18" />
+                  <input id="finance-apr" name="financeApr" type="number" min="0" step="0.001" value="1.283" />
                   <span class="input-suffix percent-suffix">%</span>
                   <select class="period-select" name="financeInterestPeriod" aria-label="Periodicidade da taxa de juros">
                     <option value="year">ano</option>
-                    <option value="month">mês</option>
+                    <option value="month" selected>mês</option>
                   </select>
                 </span>
               </label>
               <label class="field">
                 <span class="field-label">Depreciação anual</span>
                 <span class="input-shell">
-                  <input id="depreciation" name="depreciation" type="number" min="0" max="100" step="0.5" value="15" />
+                  <input id="depreciation" name="depreciation" type="number" min="0" max="100" step="0.5" value="7" />
                   <span class="input-suffix">%</span>
                 </span>
               </label>
@@ -103,10 +107,10 @@
             <div class="subsection-label">Custos adicionais</div>
             <div class="fields-grid three-columns">
               <label class="field">
-                <span class="field-label">IPVA e impostos</span>
+                <span class="field-label">Impostos e documentação</span>
                 <span class="input-shell">
                   <span class="input-prefix">R$</span>
-                  <input id="finance-tax" name="financeTax" type="number" min="0" step="100" value="6000" />
+                  <input id="finance-tax" name="financeTax" type="number" min="0" step="0.01" value="5160" />
                   <span class="input-suffix">ano</span>
                 </span>
               </label>
@@ -114,7 +118,7 @@
                 <span class="field-label">Manutenção</span>
                 <span class="input-shell">
                   <span class="input-prefix">R$</span>
-                  <input id="finance-maintenance" name="financeMaintenance" type="number" min="0" step="100" value="3000" />
+                  <input id="finance-maintenance" name="financeMaintenance" type="number" min="0" step="0.01" value="807.86" />
                   <select class="period-select" name="financeMaintenancePeriod" aria-label="Periodicidade da manutenção">
                     <option value="year">ano</option>
                     <option value="month">mês</option>
@@ -125,7 +129,7 @@
                 <span class="field-label">Seguro</span>
                 <span class="input-shell">
                   <span class="input-prefix">R$</span>
-                  <input id="finance-insurance" name="financeInsurance" type="number" min="0" step="100" value="5000" />
+                  <input id="finance-insurance" name="financeInsurance" type="number" min="0" step="0.01" value="4500" />
                   <select class="period-select" name="financeInsurancePeriod" aria-label="Periodicidade do seguro do financiamento">
                     <option value="year">ano</option>
                     <option value="month">mês</option>
@@ -147,10 +151,10 @@
 
             <div class="fields-grid">
               <label class="field">
-                <span class="field-label">Parcela mensal</span>
+                <span class="field-label">Mensalidade da assinatura</span>
                 <span class="input-shell">
                   <span class="input-prefix">R$</span>
-                  <input id="lease-monthly" name="leaseMonthly" type="number" min="0" step="100" value="3500" />
+                  <input id="lease-monthly" name="leaseMonthly" type="number" min="0" step="0.01" value="3545" />
                 </span>
               </label>
               <label class="field">
@@ -161,6 +165,10 @@
                 </span>
               </label>
             </div>
+            <p class="example-reference lease-reference">
+              Referência para 24 meses e 1.000 km/mês. A oferta não está mais
+              disponível e não deve ser tratada como cotação ativa.
+            </p>
 
             <div class="subsection-label">Custos adicionais — use zero quando inclusos</div>
             <div class="fields-grid three-columns">
@@ -208,9 +216,9 @@
 
             <div class="investment-setting">
               <label class="field return-field">
-                <span class="field-label">Rentabilidade anual esperada</span>
+                <span class="field-label">Retorno líquido anual esperado</span>
                 <span class="input-shell">
-                  <input id="investment-return" name="investmentReturn" type="number" min="-99.99" step="0.25" value="10" />
+                  <input id="investment-return" name="investmentReturn" type="number" min="-99.99" step="0.1" value="10.5" />
                   <span class="input-suffix">%</span>
                 </span>
               </label>
@@ -234,7 +242,7 @@
                   <tr>
                     <th scope="row">Inicial <small>valor da outra opção</small></th>
                     <td id="finance-initial-investment">R$ 0</td>
-                    <td id="lease-initial-investment">R$ 30.000</td>
+                    <td id="lease-initial-investment">R$ 80.000,00</td>
                   </tr>
                   <tr>
                     <th scope="row">Mensal <small>diferença de custo</small></th>
@@ -273,7 +281,7 @@
                 <p class="overline">Evolução</p>
                 <h3 id="chart-title">Patrimônio ao longo do tempo</h3>
               </div>
-              <span id="chart-period">60 meses</span>
+              <span id="chart-period">24 meses</span>
             </div>
             <div id="chart" class="chart" role="img" aria-label="Patrimônio do financiamento e do leasing ao longo do tempo"></div>
             <div class="chart-legend">
@@ -299,6 +307,16 @@
               </thead>
               <tbody>
                 <tr>
+                  <th scope="row">Valor financiado</th>
+                  <td id="finance-principal">—</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <th scope="row">Parcela do financiamento</th>
+                  <td id="finance-payment">—</td>
+                  <td>—</td>
+                </tr>
+                <tr>
                   <th scope="row">Custo mensal</th>
                   <td id="finance-monthly">—</td>
                   <td id="lease-monthly-result">—</td>
@@ -317,6 +335,11 @@
                   <th scope="row">Valor do veículo</th>
                   <td id="vehicle-value">—</td>
                   <td>—</td>
+                </tr>
+                <tr>
+                  <th scope="row">Assinatura de equilíbrio</th>
+                  <td>—</td>
+                  <td id="lease-break-even">—</td>
                 </tr>
               </tbody>
             </table>

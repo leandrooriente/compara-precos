@@ -164,6 +164,44 @@ test("fully amortizes the loan by the last installment", () => {
   closeTo(result.timeline.at(-1).loanBalance, 0);
 });
 
+test("matches the dated Volkswagen Nivus example", () => {
+  const result = calculateComparison({
+    vehiclePrice: 119000,
+    downPayment: 80000,
+    financeApr: 1.283,
+    financeInterestPeriod: "month",
+    months: 24,
+    depreciation: 7,
+    financeTax: 5160,
+    financeMaintenance: 807.86,
+    financeMaintenancePeriod: "year",
+    financeInsurance: 4500,
+    financeInsurancePeriod: "year",
+    leaseMonthly: 3545,
+    leaseUpfront: 0,
+    leaseTax: 0,
+    leaseMaintenance: 0,
+    leaseMaintenancePeriod: "year",
+    leaseInsurance: 0,
+    leaseInsurancePeriod: "year",
+    investmentReturn: 10.5,
+  });
+
+  closeTo(result.loanPayment, 1898.32, 0.01);
+  closeTo(result.financeMonthly, 2770.64, 0.01);
+  closeTo(result.leaseAllInMonthly, 3545);
+  closeTo(result.monthlyDifference, 774.36, 0.01);
+  closeTo(result.vehicleValue, 102923.1);
+  closeTo(result.leasePortfolio, 97682);
+  closeTo(result.financePortfolio, 20484.64, 0.2);
+  closeTo(result.financeNet, 123407.74, 0.2);
+  closeTo(result.leaseNet, 97682);
+  closeTo(result.advantage, 25725.74, 0.2);
+  closeTo(result.leaseBreakEvenMonthly, 2573, 1);
+  assert.equal(result.winner, "finance");
+  assert.equal(result.monthlyInvestmentRecipient, "finance");
+});
+
 test("returns the option with the greater ending net value", () => {
   const result = calculateComparison(baseScenario);
 

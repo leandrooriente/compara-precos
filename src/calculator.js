@@ -194,6 +194,23 @@ export function calculateComparison(rawInputs) {
     });
   }
 
+  const initialInvestmentGrowth = Math.pow(
+    1 + monthlyInvestmentRate,
+    months,
+  );
+  const monthlyContributionFactor =
+    Math.abs(monthlyInvestmentRate) < Number.EPSILON
+      ? months
+      : (initialInvestmentGrowth - 1) / monthlyInvestmentRate;
+  const netBeforeMonthlyDifferences =
+    vehicleValue +
+    financeInitialInvestment * initialInvestmentGrowth -
+    leaseInitialInvestment * initialInvestmentGrowth;
+  const leaseBreakEvenMonthly =
+    financeMonthly -
+    netBeforeMonthlyDifferences / monthlyContributionFactor -
+    leaseOperatingMonthly;
+
   const financeNet = vehicleValue + financePortfolio;
   const leaseNet = leasePortfolio;
   const difference = financeNet - leaseNet;
@@ -218,6 +235,7 @@ export function calculateComparison(rawInputs) {
     leaseAllInMonthly,
     monthlyDifference,
     monthlyInvestmentRecipient,
+    leaseBreakEvenMonthly,
     financeTotalPaid: downPayment + financeMonthly * months,
     leaseTotalPaid: leaseUpfront + leaseAllInMonthly * months,
     vehicleValue,

@@ -13,7 +13,7 @@ Calculadora para comparar financiamento e leasing de veículos, considerando o c
 - Rentabilidade anual esperada configurável
 - Entrada disponível imediatamente para investir no leasing
 - Investimento da diferença mensal na opção com o menor custo total
-- Comparação do patrimônio final e gráfico mês a mês
+- Comparação do patrimônio final, gráfico mês a mês e mensalidade de equilíbrio
 - Valores em real brasileiro, formatados no padrão `pt-BR`
 - Interface responsiva, acessível e sem dependências
 
@@ -36,6 +36,8 @@ patrimônio do leasing        = investimentos
 ```
 
 A taxa de juros do financiamento pode ser informada por mês ou por ano. Quando anual, ela é tratada como uma taxa nominal dividida em 12 períodos mensais. A rentabilidade do investimento e a depreciação são convertidas em taxas mensais equivalentes.
+
+O cenário inicial usa como exemplo um Volkswagen Nivus Sense 200 TSI no Rio de Janeiro, com referência em 25/08/2026. A mensalidade de assinatura de R$ 3.545 considera 24 meses e 1.000 km/mês, mas a oferta não está mais disponível e não representa uma cotação ativa.
 
 > Esta calculadora serve apenas para planejamento e educação financeira. Ela não considera tarifas, inflação, limite de quilometragem, multas contratuais, benefícios fiscais, custos de transação ou todas as condições de cada contrato.
 
