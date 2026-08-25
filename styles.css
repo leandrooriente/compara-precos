@@ -44,57 +44,6 @@ select {
   cursor: pointer;
 }
 
-.site-header {
-  width: min(1240px, calc(100% - 48px));
-  height: 86px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid rgba(16, 42, 42, 0.12);
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  color: var(--ink);
-  text-decoration: none;
-  font-family: "Manrope", sans-serif;
-  font-size: 1.15rem;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-}
-
-.brand svg {
-  width: 31px;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 2.4;
-}
-
-.github-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--ink);
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-decoration: none;
-  transition: opacity 160ms ease;
-}
-
-.github-link:hover {
-  opacity: 0.65;
-}
-
-.github-link svg {
-  width: 20px;
-  fill: currentColor;
-}
-
 .hero {
   width: min(1240px, calc(100% - 48px));
   margin: 0 auto;
@@ -785,88 +734,6 @@ select {
   line-height: 1.45;
 }
 
-.explanation {
-  width: min(1240px, calc(100% - 48px));
-  margin: 0 auto;
-  padding: 90px 0 100px;
-  border-top: 1px solid rgba(16, 42, 42, 0.13);
-}
-
-.explanation > h2 {
-  max-width: 600px;
-  margin: 12px 0 42px;
-  font-family: "Manrope", sans-serif;
-  font-size: clamp(2rem, 4vw, 3.3rem);
-  line-height: 1.08;
-  letter-spacing: -0.055em;
-}
-
-.explanation-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-}
-
-.explanation-grid article {
-  min-height: 185px;
-  padding: 24px;
-  border: 1px solid rgba(16, 42, 42, 0.11);
-  border-radius: 15px;
-  background: rgba(255, 253, 249, 0.52);
-}
-
-.explanation-grid article > span {
-  color: var(--lease);
-  font-family: "Manrope", sans-serif;
-  font-size: 0.66rem;
-  font-weight: 800;
-}
-
-.explanation-grid h3 {
-  margin: 28px 0 8px;
-  font-family: "Manrope", sans-serif;
-  font-size: 1rem;
-}
-
-.explanation-grid p {
-  margin: 0;
-  color: var(--ink-soft);
-  font-size: 0.78rem;
-  line-height: 1.6;
-}
-
-footer {
-  min-height: 110px;
-  padding: 0 max(24px, calc((100vw - 1240px) / 2));
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--ink);
-  color: white;
-}
-
-.footer-brand {
-  color: white;
-}
-
-footer > p {
-  margin: 0;
-  color: #9dafaa;
-  font-size: 0.72rem;
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 @media (max-width: 980px) {
   .input-shell input,
   .period-select {
@@ -890,35 +757,11 @@ footer > p {
     width: min(700px, calc(100% - 40px));
   }
 
-  .explanation-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .explanation-grid article {
-    min-height: auto;
-  }
-
-  .explanation-grid h3 {
-    margin-top: 18px;
-  }
 }
 
 @media (max-width: 620px) {
-  .site-header,
-  .hero,
-  .explanation {
-    width: calc(100% - 32px);
-  }
-
-  .site-header {
-    height: 72px;
-  }
-
-  .github-link span {
-    display: none;
-  }
-
   .hero {
+    width: calc(100% - 32px);
     padding: 55px 0 42px;
   }
 
@@ -988,17 +831,6 @@ footer > p {
 
   .chart {
     height: auto;
-  }
-
-  .explanation {
-    padding: 65px 0 75px;
-  }
-
-  footer {
-    padding: 28px 20px;
-    flex-direction: column;
-    justify-content: center;
-    gap: 12px;
   }
 }
 
