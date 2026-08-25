@@ -1,61 +1,61 @@
 # Compara
 
-A car finance-vs-lease calculator that compares the full cost of each option and automatically invests the difference.
+Calculadora para comparar financiamento e leasing de veículos, considerando o custo completo de cada opção e o investimento automático da diferença.
 
-**Live site:** [leandrooriente.github.io/compara-precos](https://leandrooriente.github.io/compara-precos/)
+**Acesse:** [leandrooriente.github.io/compara-precos](https://leandrooriente.github.io/compara-precos/)
 
-## What it includes
+## Recursos
 
-- Vehicle price, down payment, loan APR, installment count, and yearly depreciation
-- Annual taxes, maintenance, and insurance for financing
-- Monthly payment, due-at-signing amount, taxes, and insurance for leasing
-- Configurable expected annual investment return
-- Automatic investment of both the upfront difference and every monthly saving
-- Ending net-value comparison and a month-by-month chart
-- USD, BRL, EUR, GBP, CAD, and AUD display options
-- Responsive, accessible, dependency-free interface
+- Preço do veículo, entrada, taxa anual de juros, número de parcelas e depreciação anual
+- IPVA, impostos, manutenção e seguro do veículo financiado
+- Parcela mensal, valor inicial, impostos e seguro do leasing
+- Rentabilidade anual esperada configurável
+- Investimento automático da diferença inicial e de toda economia mensal
+- Comparação do patrimônio final e gráfico mês a mês
+- Valores em real, dólar, euro, libra, dólar canadense e dólar australiano
+- Interface responsiva, acessível e sem dependências
 
-## How the comparison works
+## Como a comparação funciona
 
-Both choices receive the same cash budget:
+As duas opções recebem o mesmo orçamento:
 
-1. At signing, the option with the lower upfront cost invests the difference.
-2. Each month, the option with the lower all-in payment invests the difference.
-3. Investment balances compound at the configured effective annual return.
-4. The financed vehicle depreciates at the configured effective annual rate.
-5. At the end of the loan term, financing keeps the estimated vehicle value; leasing assumes the vehicle is returned with no equity.
+1. No início, a opção com o menor desembolso investe a diferença.
+2. A cada mês, a opção com o menor custo total investe a economia.
+3. Os investimentos rendem de acordo com a rentabilidade anual informada.
+4. O veículo financiado perde valor conforme a depreciação anual configurada.
+5. Ao fim do prazo, o financiamento mantém o valor estimado do veículo; no leasing, considera-se que o carro é devolvido sem gerar patrimônio.
 
-The result compares:
+O resultado compara:
 
 ```text
-finance net value = vehicle resale value + finance-path investments
-lease net value   = lease-path investments
+patrimônio do financiamento = valor de revenda + investimentos
+patrimônio do leasing        = investimentos
 ```
 
-Loan APR is treated as a nominal annual rate divided into 12 monthly periods. Annual investment return and depreciation are converted to equivalent monthly rates.
+A taxa de juros do financiamento é tratada como uma taxa nominal anual dividida em 12 períodos mensais. A rentabilidade do investimento e a depreciação são convertidas em taxas mensais equivalentes.
 
-> This calculator is for planning and education only. It does not model fees, inflation, mileage penalties, tax deductions, transaction costs, or every contract term.
+> Esta calculadora serve apenas para planejamento e educação financeira. Ela não considera tarifas, inflação, limite de quilometragem, multas contratuais, benefícios fiscais, custos de transação ou todas as condições de cada contrato.
 
-## Run locally
+## Executar localmente
 
-No install or build step is needed.
+Não é necessário instalar dependências nem compilar o projeto.
 
 ```bash
 npm run dev
 ```
 
-Then open [http://localhost:4173](http://localhost:4173).
+Depois, acesse [http://localhost:4173](http://localhost:4173).
 
-## Test
+## Testes
 
 ```bash
 npm test
 ```
 
-## Deployment
+## Publicação
 
-Pushes to `main` run the tests and deploy the static site with GitHub Actions. The workflow is in [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml).
+Todo push para a branch `main` executa os testes e publica o site no GitHub Pages. O fluxo está em [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml).
 
-## License
+## Licença
 
 [MIT](LICENSE)

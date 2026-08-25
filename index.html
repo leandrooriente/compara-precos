@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Compare financing and leasing a car, including ownership costs, depreciation, and investing the difference."
+      content="Compare financiamento e leasing de veículos, incluindo custos, depreciação e o investimento da diferença."
     />
     <meta name="theme-color" content="#102a2a" />
-    <title>Compara — Finance or lease?</title>
+    <title>Compara — Financiar ou fazer leasing?</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,7 +21,7 @@
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="./" aria-label="Compara home">
+      <a class="brand" href="./" aria-label="Página inicial do Compara">
         <svg aria-hidden="true" viewBox="0 0 40 40">
           <path d="M8 13.5h19M12.5 8 7 13.5l5.5 5.5M32 26.5H13M27.5 21l5.5 5.5-5.5 5.5" />
         </svg>
@@ -36,17 +36,17 @@
         <svg aria-hidden="true" viewBox="0 0 24 24">
           <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.87c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.64-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.58 9.58 0 0 1 12 6.82c.85 0 1.71.11 2.51.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.86v2.76c0 .27.18.58.69.48A10 10 0 0 0 12 2Z" />
         </svg>
-        <span>View source</span>
+        <span>Ver código</span>
       </a>
     </header>
 
     <main>
       <section class="hero">
-        <div class="eyebrow"><span></span> Car cost calculator</div>
-        <h1>Buy the car—or<br /><em>buy your freedom?</em></h1>
+        <div class="eyebrow"><span></span> Calculadora de custo automotivo</div>
+        <h1>Comprar o carro — ou<br /><em>manter seu dinheiro investido?</em></h1>
         <p>
-          Compare the true cost of financing and leasing, then see what happens
-          when every saved dollar goes to work.
+          Compare o custo real de financiar ou fazer leasing e descubra o que
+          acontece quando cada real economizado começa a render.
         </p>
       </section>
 
@@ -54,22 +54,22 @@
         <form id="calculator-form" class="inputs-panel">
           <div class="panel-toolbar">
             <div>
-              <p class="overline">Your scenario</p>
-              <h2>Set the numbers</h2>
+              <p class="overline">Seu cenário</p>
+              <h2>Informe os valores</h2>
             </div>
             <div class="toolbar-actions">
               <label class="currency-control">
-                <span class="sr-only">Currency</span>
-                <select id="currency" name="currency" aria-label="Currency">
-                  <option value="USD">USD</option>
-                  <option value="BRL">BRL</option>
-                  <option value="EUR">EUR</option>
-                  <option value="GBP">GBP</option>
-                  <option value="CAD">CAD</option>
-                  <option value="AUD">AUD</option>
+                <span class="sr-only">Moeda</span>
+                <select id="currency" name="currency" aria-label="Moeda">
+                  <option value="BRL">BRL (R$)</option>
+                  <option value="USD">USD (US$)</option>
+                  <option value="EUR">EUR (€)</option>
+                  <option value="GBP">GBP (£)</option>
+                  <option value="CAD">CAD (CA$)</option>
+                  <option value="AUD">AUD (AU$)</option>
                 </select>
               </label>
-              <button id="reset-button" class="reset-button" type="button">Reset</button>
+              <button id="reset-button" class="reset-button" type="button">Redefinir</button>
             </div>
           </div>
 
@@ -77,16 +77,16 @@
             <div class="section-title-row">
               <span class="section-number">01</span>
               <div>
-                <h3 id="vehicle-title">The vehicle</h3>
-                <p>Start with the drive-away price.</p>
+                <h3 id="vehicle-title">O veículo</h3>
+                <p>Comece pelo preço total do carro.</p>
               </div>
             </div>
             <div class="fields-grid one-column">
               <label class="field">
-                <span class="field-label">Vehicle price</span>
+                <span class="field-label">Preço do veículo</span>
                 <span class="input-shell">
-                  <span class="input-prefix" data-currency-symbol>$</span>
-                  <input id="vehicle-price" name="vehiclePrice" type="number" min="0" step="500" value="48000" required />
+                  <span class="input-prefix" data-currency-symbol>R$</span>
+                  <input id="vehicle-price" name="vehiclePrice" type="number" min="0" step="1000" value="150000" required />
                 </span>
               </label>
             </div>
@@ -97,37 +97,37 @@
               <span class="section-number finance-number">02</span>
               <div>
                 <div class="title-with-tag">
-                  <h3 id="finance-title">Financing</h3>
-                  <span class="tag finance-tag">You own it</span>
+                  <h3 id="finance-title">Financiamento</h3>
+                  <span class="tag finance-tag">O carro é seu</span>
                 </div>
-                <p>Loan terms and yearly ownership costs.</p>
+                <p>Condições do contrato e custos anuais do veículo.</p>
               </div>
             </div>
 
             <div class="fields-grid">
               <label class="field">
-                <span class="field-label">Down payment</span>
+                <span class="field-label">Entrada</span>
                 <span class="input-shell">
-                  <span class="input-prefix" data-currency-symbol>$</span>
-                  <input id="down-payment" name="downPayment" type="number" min="0" step="500" value="8000" />
+                  <span class="input-prefix" data-currency-symbol>R$</span>
+                  <input id="down-payment" name="downPayment" type="number" min="0" step="1000" value="30000" />
                 </span>
               </label>
               <label class="field">
-                <span class="field-label">Interest rate <small>APR</small></span>
+                <span class="field-label">Taxa de juros <small>ao ano</small></span>
                 <span class="input-shell input-shell-suffix">
-                  <input id="finance-apr" name="financeApr" type="number" min="0" step="0.1" value="6.5" />
+                  <input id="finance-apr" name="financeApr" type="number" min="0" step="0.1" value="18" />
                   <span class="input-suffix">%</span>
                 </span>
               </label>
               <label class="field">
-                <span class="field-label">Installments</span>
+                <span class="field-label">Quantidade de parcelas</span>
                 <span class="input-shell input-shell-suffix">
                   <input id="months" name="months" type="number" min="1" max="360" step="1" value="60" />
-                  <span class="input-suffix">months</span>
+                  <span class="input-suffix">meses</span>
                 </span>
               </label>
               <label class="field">
-                <span class="field-label">Yearly depreciation</span>
+                <span class="field-label">Depreciação anual</span>
                 <span class="input-shell input-shell-suffix">
                   <input id="depreciation" name="depreciation" type="number" min="0" max="100" step="0.5" value="15" />
                   <span class="input-suffix">%</span>
@@ -135,27 +135,27 @@
               </label>
             </div>
 
-            <div class="subsection-label"><span>Annual costs</span></div>
+            <div class="subsection-label"><span>Custos anuais</span></div>
             <div class="fields-grid three-columns">
               <label class="field compact-field">
-                <span class="field-label">Taxes</span>
+                <span class="field-label">IPVA e impostos</span>
                 <span class="input-shell">
-                  <span class="input-prefix" data-currency-symbol>$</span>
-                  <input id="finance-tax" name="financeTax" type="number" min="0" step="50" value="600" />
+                  <span class="input-prefix" data-currency-symbol>R$</span>
+                  <input id="finance-tax" name="financeTax" type="number" min="0" step="100" value="6000" />
                 </span>
               </label>
               <label class="field compact-field">
-                <span class="field-label">Maintenance</span>
+                <span class="field-label">Manutenção</span>
                 <span class="input-shell">
-                  <span class="input-prefix" data-currency-symbol>$</span>
-                  <input id="finance-maintenance" name="financeMaintenance" type="number" min="0" step="50" value="1200" />
+                  <span class="input-prefix" data-currency-symbol>R$</span>
+                  <input id="finance-maintenance" name="financeMaintenance" type="number" min="0" step="100" value="3000" />
                 </span>
               </label>
               <label class="field compact-field">
-                <span class="field-label">Insurance</span>
+                <span class="field-label">Seguro</span>
                 <span class="input-shell">
-                  <span class="input-prefix" data-currency-symbol>$</span>
-                  <input id="finance-insurance" name="financeInsurance" type="number" min="0" step="50" value="1800" />
+                  <span class="input-prefix" data-currency-symbol>R$</span>
+                  <input id="finance-insurance" name="financeInsurance" type="number" min="0" step="100" value="5000" />
                 </span>
               </label>
             </div>
@@ -167,43 +167,43 @@
               <div>
                 <div class="title-with-tag">
                   <h3 id="lease-title">Leasing</h3>
-                  <span class="tag lease-tag">You return it</span>
+                  <span class="tag lease-tag">Você devolve</span>
                 </div>
-                <p>Compared over the same number of months.</p>
+                <p>Comparado pelo mesmo número de meses.</p>
               </div>
             </div>
 
             <div class="fields-grid">
               <label class="field">
-                <span class="field-label">Monthly lease</span>
+                <span class="field-label">Parcela mensal</span>
                 <span class="input-shell">
-                  <span class="input-prefix" data-currency-symbol>$</span>
-                  <input id="lease-monthly" name="leaseMonthly" type="number" min="0" step="25" value="600" />
+                  <span class="input-prefix" data-currency-symbol>R$</span>
+                  <input id="lease-monthly" name="leaseMonthly" type="number" min="0" step="100" value="3500" />
                 </span>
               </label>
               <label class="field">
-                <span class="field-label">Due at signing <small>optional</small></span>
+                <span class="field-label">Valor inicial <small>opcional</small></span>
                 <span class="input-shell">
-                  <span class="input-prefix" data-currency-symbol>$</span>
+                  <span class="input-prefix" data-currency-symbol>R$</span>
                   <input id="lease-upfront" name="leaseUpfront" type="number" min="0" step="100" value="0" />
                 </span>
               </label>
             </div>
 
-            <div class="subsection-label"><span>Optional annual costs</span></div>
+            <div class="subsection-label"><span>Custos anuais opcionais</span></div>
             <div class="fields-grid">
               <label class="field">
-                <span class="field-label">Taxes <small>use 0 if included</small></span>
+                <span class="field-label">Impostos <small>use 0 se inclusos</small></span>
                 <span class="input-shell">
-                  <span class="input-prefix" data-currency-symbol>$</span>
+                  <span class="input-prefix" data-currency-symbol>R$</span>
                   <input id="lease-tax" name="leaseTax" type="number" min="0" step="50" value="0" />
                 </span>
               </label>
               <label class="field">
-                <span class="field-label">Insurance <small>use 0 if included</small></span>
+                <span class="field-label">Seguro <small>use 0 se incluso</small></span>
                 <span class="input-shell">
-                  <span class="input-prefix" data-currency-symbol>$</span>
-                  <input id="lease-insurance" name="leaseInsurance" type="number" min="0" step="50" value="1800" />
+                  <span class="input-prefix" data-currency-symbol>R$</span>
+                  <input id="lease-insurance" name="leaseInsurance" type="number" min="0" step="100" value="5000" />
                 </span>
               </label>
             </div>
@@ -213,15 +213,15 @@
             <div class="section-title-row">
               <span class="section-number investment-number">04</span>
               <div>
-                <h3 id="investment-title">Invest the difference</h3>
-                <p>Put the cheaper option's savings to work automatically.</p>
+                <h3 id="investment-title">Invista a diferença</h3>
+                <p>A economia da opção mais barata é investida automaticamente.</p>
               </div>
             </div>
             <div class="investment-row">
               <label class="field return-field">
-                <span class="field-label">Expected yearly return</span>
+                <span class="field-label">Rentabilidade anual esperada</span>
                 <span class="input-shell input-shell-suffix">
-                  <input id="investment-return" name="investmentReturn" type="number" min="-99.99" step="0.25" value="7" />
+                  <input id="investment-return" name="investmentReturn" type="number" min="-99.99" step="0.25" value="10" />
                   <span class="input-suffix">%</span>
                 </span>
               </label>
@@ -229,76 +229,76 @@
                 <svg aria-hidden="true" viewBox="0 0 24 24">
                   <path d="M4 17 9 12l4 4 7-9M15 7h5v5" />
                 </svg>
-                <p>Includes the upfront difference and every monthly saving.</p>
+                <p>Inclui a diferença inicial e a economia de cada mês.</p>
               </div>
             </div>
           </section>
         </form>
 
-        <aside class="results-panel" aria-label="Comparison results">
+        <aside class="results-panel" aria-label="Resultado da comparação">
           <div id="verdict" class="verdict" aria-live="polite">
-            <p class="result-kicker">After 5 years</p>
-            <h2>Calculating your best route…</h2>
-            <p class="verdict-copy">Adjust the numbers to compare both options.</p>
+            <p class="result-kicker">Após 5 anos</p>
+            <h2>Calculando a melhor escolha…</h2>
+            <p class="verdict-copy">Ajuste os valores para comparar as duas opções.</p>
           </div>
 
           <div class="net-comparison">
             <div class="net-option finance-option">
-              <span><i></i> Finance</span>
+              <span><i></i> Financiamento</span>
               <strong id="finance-net">—</strong>
-              <small>ending net value</small>
+              <small>patrimônio final</small>
             </div>
-            <div class="versus">vs</div>
+            <div class="versus">ou</div>
             <div class="net-option lease-option">
-              <span><i></i> Lease</span>
+              <span><i></i> Leasing</span>
               <strong id="lease-net">—</strong>
-              <small>ending net value</small>
+              <small>patrimônio final</small>
             </div>
           </div>
 
           <section class="chart-card" aria-labelledby="chart-title">
             <div class="chart-heading">
               <div>
-                <p class="overline">Net value over time</p>
-                <h3 id="chart-title">Where your money ends up</h3>
+                <p class="overline">Patrimônio ao longo do tempo</p>
+                <h3 id="chart-title">Onde seu dinheiro termina</h3>
               </div>
-              <span id="chart-period">60 mo.</span>
+              <span id="chart-period">60 meses</span>
             </div>
-            <div id="chart" class="chart" role="img" aria-label="Net value for financing and leasing over time"></div>
+            <div id="chart" class="chart" role="img" aria-label="Patrimônio do financiamento e do leasing ao longo do tempo"></div>
             <div class="chart-legend">
-              <span><i class="finance-dot"></i> Finance equity + investments</span>
-              <span><i class="lease-dot"></i> Lease investments</span>
+              <span><i class="finance-dot"></i> Veículo + investimentos</span>
+              <span><i class="lease-dot"></i> Investimentos do leasing</span>
             </div>
           </section>
 
           <section class="breakdown" aria-labelledby="breakdown-title">
             <div class="breakdown-heading">
-              <p class="overline">At a glance</p>
-              <h3 id="breakdown-title">Monthly &amp; ending values</h3>
+              <p class="overline">Resumo</p>
+              <h3 id="breakdown-title">Valores mensais e finais</h3>
             </div>
             <div class="breakdown-table">
               <div class="table-row table-head">
                 <span></span>
-                <strong>Finance</strong>
-                <strong>Lease</strong>
+                <strong>Financ.</strong>
+                <strong>Leasing</strong>
               </div>
               <div class="table-row">
-                <span>Monthly all-in</span>
+                <span>Mensal com custos</span>
                 <strong id="finance-monthly">—</strong>
                 <strong id="lease-monthly-result">—</strong>
               </div>
               <div class="table-row">
-                <span>Total cash paid</span>
+                <span>Total desembolsado</span>
                 <strong id="finance-total">—</strong>
                 <strong id="lease-total">—</strong>
               </div>
               <div class="table-row">
-                <span>Investment balance</span>
+                <span>Saldo investido</span>
                 <strong id="finance-portfolio">—</strong>
                 <strong id="lease-portfolio">—</strong>
               </div>
               <div class="table-row">
-                <span>Vehicle value</span>
+                <span>Valor do veículo</span>
                 <strong id="vehicle-value">—</strong>
                 <strong>—</strong>
               </div>
@@ -311,31 +311,31 @@
               <path d="M12 10v6M12 7h.01" />
             </svg>
             <p>
-              Both options use the same cash budget. The cheaper one invests
-              the difference; a lease ends with no vehicle equity.
+              As duas opções usam o mesmo orçamento. A mais barata investe a
+              diferença; no fim do leasing, não há patrimônio no veículo.
             </p>
           </div>
         </aside>
       </div>
 
       <section class="explanation">
-        <p class="overline">A fairer comparison</p>
-        <h2>It’s not just about the monthly payment.</h2>
+        <p class="overline">Uma comparação mais justa</p>
+        <h2>Não é só uma questão de parcela.</h2>
         <div class="explanation-grid">
           <article>
             <span>01</span>
-            <h3>Count every cost</h3>
-            <p>Loan interest, tax, insurance, maintenance, and depreciation all shape the real price.</p>
+            <h3>Considere todos os custos</h3>
+            <p>Juros, impostos, seguro, manutenção e depreciação definem o preço real.</p>
           </article>
           <article>
             <span>02</span>
-            <h3>Equalize cash flow</h3>
-            <p>The option that costs less upfront or each month invests every dollar of the gap.</p>
+            <h3>Equilibre o fluxo de caixa</h3>
+            <p>A opção que custa menos no início ou por mês investe cada real da diferença.</p>
           </article>
           <article>
             <span>03</span>
-            <h3>Compare what remains</h3>
-            <p>At the finish line, compare investment balances plus any equity in the financed car.</p>
+            <h3>Compare o que restou</h3>
+            <p>No final, compare os investimentos e o valor do veículo já quitado.</p>
           </article>
         </div>
       </section>
@@ -348,7 +348,7 @@
         </svg>
         <span>compara</span>
       </a>
-      <p>For planning only—not financial advice.</p>
+      <p>Para fins de planejamento — não é recomendação financeira.</p>
     </footer>
   </body>
 </html>

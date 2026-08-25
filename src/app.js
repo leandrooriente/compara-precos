@@ -1,35 +1,28 @@
 import { calculateComparison } from "./calculator.js";
 
-const STORAGE_KEY = "compara-scenario-v1";
+const STORAGE_KEY = "compara-cenario-pt-br-v1";
 const form = document.querySelector("#calculator-form");
 const currencySelect = document.querySelector("#currency");
 const resetButton = document.querySelector("#reset-button");
 
 const defaultValues = {
-  currency: "USD",
-  vehiclePrice: 48000,
-  downPayment: 8000,
-  financeApr: 6.5,
+  currency: "BRL",
+  vehiclePrice: 150000,
+  downPayment: 30000,
+  financeApr: 18,
   months: 60,
   depreciation: 15,
-  financeTax: 600,
-  financeMaintenance: 1200,
-  financeInsurance: 1800,
-  leaseMonthly: 600,
+  financeTax: 6000,
+  financeMaintenance: 3000,
+  financeInsurance: 5000,
+  leaseMonthly: 3500,
   leaseUpfront: 0,
   leaseTax: 0,
-  leaseInsurance: 1800,
-  investmentReturn: 7,
+  leaseInsurance: 5000,
+  investmentReturn: 10,
 };
 
-const currencyLocales = {
-  USD: "en-US",
-  BRL: "pt-BR",
-  EUR: "de-DE",
-  GBP: "en-GB",
-  CAD: "en-CA",
-  AUD: "en-AU",
-};
+const LOCALE = "pt-BR";
 
 function getScenario() {
   return Object.fromEntries(
@@ -67,14 +60,13 @@ function saveScenario(scenario) {
 }
 
 function getFormatters(currency) {
-  const locale = currencyLocales[currency] ?? "en-US";
   return {
-    money: new Intl.NumberFormat(locale, {
+    money: new Intl.NumberFormat(LOCALE, {
       style: "currency",
       currency,
       maximumFractionDigits: 0,
     }),
-    compactMoney: new Intl.NumberFormat(locale, {
+    compactMoney: new Intl.NumberFormat(LOCALE, {
       style: "currency",
       currency,
       notation: "compact",
@@ -84,12 +76,11 @@ function getFormatters(currency) {
 }
 
 function getCurrencySymbol(currency) {
-  const locale = currencyLocales[currency] ?? "en-US";
   return (
-    new Intl.NumberFormat(locale, {
+    new Intl.NumberFormat(LOCALE, {
       style: "currency",
       currency,
-      currencyDisplay: "narrowSymbol",
+      currencyDisplay: "symbol",
     })
       .formatToParts(0)
       .find((part) => part.type === "currency")?.value ?? currency
@@ -99,15 +90,15 @@ function getCurrencySymbol(currency) {
 function describePeriod(months) {
   if (months % 12 === 0) {
     const years = months / 12;
-    return `${years} ${years === 1 ? "year" : "years"}`;
+    return `${years} ${years === 1 ? "ano" : "anos"}`;
   }
-  return `${months} months`;
+  return `${months} meses`;
 }
 
 function chartMarkup(timeline, compactMoney) {
   const width = 430;
   const height = 178;
-  const margin = { top: 8, right: 9, bottom: 24, left: 48 };
+  const margin = { top: 8, right: 9, bottom: 24, left: 62 };
   const plotWidth = width - margin.left - margin.right;
   const plotHeight = height - margin.top - margin.bottom;
   const values = timeline.flatMap((point) => [point.financeNet, point.leaseNet]);
@@ -135,11 +126,17 @@ function chartMarkup(timeline, compactMoney) {
     { month: 0, label: "0" },
     {
       month: lastMonth / 2,
-      label: lastMonth >= 24 ? `${(lastMonth / 24).toFixed(lastMonth % 24 === 0 ? 0 : 1)}y` : `${Math.round(lastMonth / 2)}m`,
+      label:
+        lastMonth >= 24
+          ? `${(lastMonth / 24).toFixed(lastMonth % 24 === 0 ? 0 : 1).replace(".", ",")}a`
+          : `${Math.round(lastMonth / 2)}m`,
     },
     {
       month: lastMonth,
-      label: lastMonth >= 12 ? `${(lastMonth / 12).toFixed(lastMonth % 12 === 0 ? 0 : 1)}y` : `${lastMonth}m`,
+      label:
+        lastMonth >= 12
+          ? `${(lastMonth / 12).toFixed(lastMonth % 12 === 0 ? 0 : 1).replace(".", ",")}a`
+          : `${lastMonth}m`,
     },
   ];
 
@@ -191,22 +188,22 @@ function render() {
     element.textContent = getCurrencySymbol(scenario.currency);
   });
 
-  setText(".result-kicker", `After ${period}`);
+  setText(".result-kicker", `Após ${period}`);
   verdict.classList.toggle("lease-wins", result.winner === "lease");
 
   if (result.winner === "finance") {
-    verdictTitle.innerHTML = `Financing leaves you <strong>${money.format(result.advantage)} ahead.</strong>`;
+    verdictTitle.innerHTML = `Financiar deixa você com <strong>${money.format(result.advantage)} a mais.</strong>`;
   } else if (result.winner === "lease") {
-    verdictTitle.innerHTML = `Leasing leaves you <strong>${money.format(result.advantage)} ahead.</strong>`;
+    verdictTitle.innerHTML = `O leasing deixa você com <strong>${money.format(result.advantage)} a mais.</strong>`;
   } else {
-    verdictTitle.innerHTML = "It’s a <strong>dead heat.</strong>";
+    verdictTitle.innerHTML = "Há um <strong>empate técnico.</strong>";
   }
 
-  verdictCopy.textContent = `After investing every saving, financing ends at ${money.format(result.financeNet)} and leasing at ${money.format(result.leaseNet)}.`;
+  verdictCopy.textContent = `Investindo toda a diferença, o financiamento termina com ${money.format(result.financeNet)} e o leasing com ${money.format(result.leaseNet)}.`;
 
   setText("#finance-net", money.format(result.financeNet));
   setText("#lease-net", money.format(result.leaseNet));
-  setText("#chart-period", `${result.inputs.months} mo.`);
+  setText("#chart-period", `${result.inputs.months} meses`);
   setText("#finance-monthly", money.format(result.financeMonthly));
   setText("#lease-monthly-result", money.format(result.leaseAllInMonthly));
   setText("#finance-total", money.format(result.financeTotalPaid));
@@ -219,14 +216,14 @@ function render() {
   chart.innerHTML = chartMarkup(result.timeline, compactMoney);
   chart.setAttribute(
     "aria-label",
-    `Over ${period}, financing ends at ${money.format(result.financeNet)} and leasing ends at ${money.format(result.leaseNet)}.`,
+    `Após ${period}, o financiamento termina com ${money.format(result.financeNet)} e o leasing com ${money.format(result.leaseNet)}.`,
   );
 
   const downPayment = form.elements.namedItem("downPayment");
   downPayment.max = result.inputs.vehiclePrice;
   const invalidDownPayment = Number(downPayment.value) > result.inputs.vehiclePrice;
   downPayment.setCustomValidity(
-    invalidDownPayment ? "Down payment cannot exceed the vehicle price." : "",
+    invalidDownPayment ? "A entrada não pode ser maior que o preço do veículo." : "",
   );
 
   saveScenario(scenario);

@@ -902,6 +902,13 @@ footer > p {
 
   .panel-toolbar {
     min-height: 96px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .toolbar-actions {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .panel-toolbar h2 {
