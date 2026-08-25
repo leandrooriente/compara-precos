@@ -1,17 +1,16 @@
 import { calculateComparison } from "./calculator.js";
 
 const STORAGE_KEY = "compara-cenario-pt-br-v2";
+const CURRENCY = "BRL";
 const form = document.querySelector("#calculator-form");
 const resetButton = document.querySelector("#reset-button");
 const textFields = new Set([
-  "currency",
   "financeMaintenancePeriod",
   "financeInsurancePeriod",
   "leaseInsurancePeriod",
 ]);
 
 const defaultValues = {
-  currency: "BRL",
   vehiclePrice: 150000,
   downPayment: 30000,
   financeApr: 18,
@@ -67,32 +66,20 @@ function saveScenario(scenario) {
   }
 }
 
-function getFormatters(currency) {
+function getFormatters() {
   return {
     money: new Intl.NumberFormat(LOCALE, {
       style: "currency",
-      currency,
+      currency: CURRENCY,
       maximumFractionDigits: 0,
     }),
     compactMoney: new Intl.NumberFormat(LOCALE, {
       style: "currency",
-      currency,
+      currency: CURRENCY,
       notation: "compact",
       maximumFractionDigits: 1,
     }),
   };
-}
-
-function getCurrencySymbol(currency) {
-  return (
-    new Intl.NumberFormat(LOCALE, {
-      style: "currency",
-      currency,
-      currencyDisplay: "symbol",
-    })
-      .formatToParts(0)
-      .find((part) => part.type === "currency")?.value ?? currency
-  );
 }
 
 function describePeriod(months) {
@@ -186,15 +173,11 @@ function setText(selector, value) {
 function render() {
   const scenario = getScenario();
   const result = calculateComparison(scenario);
-  const { money, compactMoney } = getFormatters(scenario.currency);
+  const { money, compactMoney } = getFormatters();
   const period = describePeriod(result.inputs.months);
   const verdict = document.querySelector("#verdict");
   const verdictTitle = verdict.querySelector("h2");
   const verdictCopy = verdict.querySelector(".verdict-copy");
-
-  document.querySelectorAll("[data-currency-symbol]").forEach((element) => {
-    element.textContent = getCurrencySymbol(scenario.currency);
-  });
 
   setText(".result-kicker", `Após ${period}`);
   verdict.classList.toggle("lease-wins", result.winner === "lease");

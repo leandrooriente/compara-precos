@@ -12,7 +12,7 @@ Calculadora para comparar financiamento e leasing de veículos, considerando o c
 - Rentabilidade anual esperada configurável
 - Investimento automático da diferença inicial e de toda economia mensal
 - Comparação do patrimônio final e gráfico mês a mês
-- Valores em real, dólar, euro, libra, dólar canadense e dólar australiano
+- Valores em real brasileiro, formatados no padrão `pt-BR`
 - Interface responsiva, acessível e sem dependências
 
 ## Como a comparação funciona
