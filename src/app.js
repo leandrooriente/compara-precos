@@ -144,8 +144,8 @@ function chartMarkup(timeline, compactMoney) {
     <svg viewBox="0 0 ${width} ${height}" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
       <defs>
         <linearGradient id="finance-gradient" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stop-color="#1b6670" stop-opacity="0.13" />
-          <stop offset="100%" stop-color="#1b6670" stop-opacity="0" />
+          <stop offset="0%" stop-color="#006974" stop-opacity="0.12" />
+          <stop offset="100%" stop-color="#006974" stop-opacity="0" />
         </linearGradient>
       </defs>
       ${ticks
@@ -215,15 +215,19 @@ function render() {
     "#finance-initial-investment",
     money.format(result.financeInitialInvestment),
   );
-  setText("#monthly-investment", money.format(result.monthlyDifference));
-
-  const monthlyInvestmentLabel =
+  const financeMonthlyInvestment =
     result.monthlyInvestmentRecipient === "finance"
-      ? "Diferença mensal → financiamento"
-      : result.monthlyInvestmentRecipient === "lease"
-        ? "Diferença mensal → leasing"
-        : "Sem diferença mensal";
-  setText("#monthly-investment-label", monthlyInvestmentLabel);
+      ? result.monthlyDifference
+      : 0;
+  const leaseMonthlyInvestment =
+    result.monthlyInvestmentRecipient === "lease"
+      ? result.monthlyDifference
+      : 0;
+  setText(
+    "#finance-monthly-investment",
+    money.format(financeMonthlyInvestment),
+  );
+  setText("#lease-monthly-investment", money.format(leaseMonthlyInvestment));
 
   const chart = document.querySelector("#chart");
   chart.innerHTML = chartMarkup(result.timeline, compactMoney);
@@ -238,6 +242,10 @@ function render() {
   downPayment.setCustomValidity(
     invalidDownPayment ? "A entrada não pode ser maior que o preço do veículo." : "",
   );
+  downPayment
+    .closest(".input-shell")
+    .classList.toggle("is-invalid", invalidDownPayment);
+  document.querySelector("#down-payment-error").hidden = !invalidDownPayment;
 
   saveScenario(scenario);
 }
