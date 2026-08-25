@@ -87,6 +87,25 @@ test("includes annual taxes, maintenance, and insurance in monthly costs", () =>
   assert.equal(result.leaseAllInMonthly, 1150);
 });
 
+test("supports monthly maintenance and insurance costs", () => {
+  const result = calculateComparison({
+    ...baseScenario,
+    financeTax: 1200,
+    financeMaintenance: 600,
+    financeMaintenancePeriod: "month",
+    financeInsurance: 200,
+    financeInsurancePeriod: "month",
+    leaseTax: 1200,
+    leaseInsurance: 150,
+    leaseInsurancePeriod: "month",
+  });
+
+  assert.equal(result.financeOperatingMonthly, 900);
+  assert.equal(result.leaseOperatingMonthly, 250);
+  assert.equal(result.financeMonthly, 1900);
+  assert.equal(result.leaseAllInMonthly, 1250);
+});
+
 test("compounds yearly depreciation over the comparison period", () => {
   const result = calculateComparison({
     ...baseScenario,

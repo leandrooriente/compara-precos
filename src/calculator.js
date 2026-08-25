@@ -31,6 +31,14 @@ function nonNegative(value) {
   return Math.max(0, finite(value));
 }
 
+function normalizePeriod(value) {
+  return value === "month" ? "month" : "year";
+}
+
+function costPerMonth(value, period) {
+  return period === "month" ? value : value / 12;
+}
+
 export function normalizeInputs(raw = {}) {
   const price = nonNegative(raw.vehiclePrice);
 
@@ -42,11 +50,14 @@ export function normalizeInputs(raw = {}) {
     depreciation: Math.min(100, Math.max(0, finite(raw.depreciation))),
     financeTax: nonNegative(raw.financeTax),
     financeMaintenance: nonNegative(raw.financeMaintenance),
+    financeMaintenancePeriod: normalizePeriod(raw.financeMaintenancePeriod),
     financeInsurance: nonNegative(raw.financeInsurance),
+    financeInsurancePeriod: normalizePeriod(raw.financeInsurancePeriod),
     leaseMonthly: nonNegative(raw.leaseMonthly),
     leaseUpfront: nonNegative(raw.leaseUpfront),
     leaseTax: nonNegative(raw.leaseTax),
     leaseInsurance: nonNegative(raw.leaseInsurance),
+    leaseInsurancePeriod: normalizePeriod(raw.leaseInsurancePeriod),
     investmentReturn: Math.max(-99.99, finite(raw.investmentReturn)),
   };
 }
@@ -68,19 +79,25 @@ export function calculateComparison(rawInputs) {
     depreciation,
     financeTax,
     financeMaintenance,
+    financeMaintenancePeriod,
     financeInsurance,
+    financeInsurancePeriod,
     leaseMonthly,
     leaseUpfront,
     leaseTax,
     leaseInsurance,
+    leaseInsurancePeriod,
     investmentReturn,
   } = inputs;
 
   const principal = vehiclePrice - downPayment;
   const loanPayment = calculateLoanPayment(principal, financeApr, months);
   const financeOperatingMonthly =
-    (financeTax + financeMaintenance + financeInsurance) / 12;
-  const leaseOperatingMonthly = (leaseTax + leaseInsurance) / 12;
+    financeTax / 12 +
+    costPerMonth(financeMaintenance, financeMaintenancePeriod) +
+    costPerMonth(financeInsurance, financeInsurancePeriod);
+  const leaseOperatingMonthly =
+    leaseTax / 12 + costPerMonth(leaseInsurance, leaseInsurancePeriod);
   const financeMonthly = loanPayment + financeOperatingMonthly;
   const leaseAllInMonthly = leaseMonthly + leaseOperatingMonthly;
   const monthlyInvestmentRate = annualReturnToMonthlyRate(investmentReturn);

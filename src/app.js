@@ -1,9 +1,14 @@
 import { calculateComparison } from "./calculator.js";
 
-const STORAGE_KEY = "compara-cenario-pt-br-v1";
+const STORAGE_KEY = "compara-cenario-pt-br-v2";
 const form = document.querySelector("#calculator-form");
-const currencySelect = document.querySelector("#currency");
 const resetButton = document.querySelector("#reset-button");
+const textFields = new Set([
+  "currency",
+  "financeMaintenancePeriod",
+  "financeInsurancePeriod",
+  "leaseInsurancePeriod",
+]);
 
 const defaultValues = {
   currency: "BRL",
@@ -14,11 +19,14 @@ const defaultValues = {
   depreciation: 15,
   financeTax: 6000,
   financeMaintenance: 3000,
+  financeMaintenancePeriod: "year",
   financeInsurance: 5000,
+  financeInsurancePeriod: "year",
   leaseMonthly: 3500,
   leaseUpfront: 0,
   leaseTax: 0,
-  leaseInsurance: 5000,
+  leaseInsurance: 0,
+  leaseInsurancePeriod: "year",
   investmentReturn: 10,
 };
 
@@ -30,7 +38,7 @@ function getScenario() {
       .filter((element) => element.name)
       .map((element) => [
         element.name,
-        element.name === "currency" ? element.value : Number(element.value),
+        textFields.has(element.name) ? element.value : Number(element.value),
       ]),
   );
 }
