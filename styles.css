@@ -422,24 +422,34 @@ select {
 
 .investment-row {
   display: grid;
-  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
-  align-items: end;
+  grid-template-columns: minmax(0, 0.68fr) minmax(0, 1.32fr);
+  align-items: start;
   gap: 16px;
 }
 
-.invest-note {
-  min-height: 47px;
-  padding: 9px 12px;
-  display: flex;
-  align-items: center;
-  gap: 9px;
+.investment-flows {
+  overflow: hidden;
   border: 1px solid #dfe5c6;
   border-radius: 9px;
   background: #f0f4db;
 }
 
-.invest-note svg {
-  width: 20px;
+.flow-heading {
+  min-height: 39px;
+  padding: 8px 11px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #dfe5c6;
+  color: #566326;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.flow-heading svg {
+  width: 18px;
   flex: 0 0 auto;
   fill: none;
   stroke: #6e7f2d;
@@ -448,12 +458,29 @@ select {
   stroke-width: 2;
 }
 
-.invest-note p {
-  margin: 0;
-  color: #566326;
-  font-size: 0.68rem;
-  font-weight: 600;
-  line-height: 1.35;
+.flow-row {
+  min-height: 36px;
+  padding: 7px 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid rgba(122, 143, 53, 0.14);
+  color: #66722f;
+  font-size: 0.65rem;
+  line-height: 1.25;
+}
+
+.flow-row:last-child {
+  border-bottom: 0;
+}
+
+.flow-row strong {
+  flex: 0 0 auto;
+  color: #46531d;
+  font-family: "Manrope", sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: -0.02em;
 }
 
 .results-panel {

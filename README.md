@@ -11,7 +11,8 @@ Calculadora para comparar financiamento e leasing de veículos, considerando o c
 - IPVA e impostos anuais, com manutenção e seguro informados por mês ou por ano
 - Parcela mensal, valor inicial, impostos anuais e seguro opcional do leasing informado por mês ou por ano
 - Rentabilidade anual esperada configurável
-- Investimento automático da diferença inicial e de toda economia mensal
+- Entrada disponível imediatamente para investir no leasing
+- Investimento da diferença mensal na opção com o menor custo total
 - Comparação do patrimônio final e gráfico mês a mês
 - Valores em real brasileiro, formatados no padrão `pt-BR`
 - Interface responsiva, acessível e sem dependências
@@ -20,11 +21,12 @@ Calculadora para comparar financiamento e leasing de veículos, considerando o c
 
 As duas opções recebem o mesmo orçamento:
 
-1. No início, a opção com o menor desembolso investe a diferença.
-2. A cada mês, a opção com o menor custo total investe a economia.
-3. Os investimentos rendem de acordo com a rentabilidade anual informada.
-4. O veículo financiado perde valor conforme a depreciação anual configurada.
-5. Ao fim do prazo, o financiamento mantém o valor estimado do veículo; no leasing, considera-se que o carro é devolvido sem gerar patrimônio.
+1. No leasing, o valor total da entrada do financiamento fica disponível para investir imediatamente.
+2. No financiamento, qualquer valor inicial do leasing também fica disponível para investir.
+3. A cada mês, a opção com o menor custo total investe a diferença em relação à opção mais cara.
+4. Os investimentos rendem de acordo com a rentabilidade anual informada.
+5. O veículo financiado perde valor conforme a depreciação anual configurada.
+6. Ao fim do prazo, o financiamento mantém o valor estimado do veículo; no leasing, considera-se que o carro é devolvido sem gerar patrimônio.
 
 O resultado compara:
 

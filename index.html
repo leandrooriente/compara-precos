@@ -217,7 +217,7 @@
               <span class="section-number investment-number">04</span>
               <div>
                 <h3 id="investment-title">Invista a diferença</h3>
-                <p>A economia da opção mais barata é investida automaticamente.</p>
+                <p>A entrada vai para o leasing; a economia mensal vai para a opção mais barata.</p>
               </div>
             </div>
             <div class="investment-row">
@@ -228,11 +228,25 @@
                   <span class="input-suffix">%</span>
                 </span>
               </label>
-              <div class="invest-note">
-                <svg aria-hidden="true" viewBox="0 0 24 24">
-                  <path d="M4 17 9 12l4 4 7-9M15 7h5v5" />
-                </svg>
-                <p>Inclui a diferença inicial e a economia de cada mês.</p>
+              <div class="investment-flows" aria-live="polite">
+                <div class="flow-heading">
+                  <svg aria-hidden="true" viewBox="0 0 24 24">
+                    <path d="M4 17 9 12l4 4 7-9M15 7h5v5" />
+                  </svg>
+                  <span>Valores direcionados aos investimentos</span>
+                </div>
+                <div class="flow-row">
+                  <span>Entrada → leasing</span>
+                  <strong id="lease-initial-investment">R$ 30.000</strong>
+                </div>
+                <div class="flow-row">
+                  <span>Valor inicial → financiamento</span>
+                  <strong id="finance-initial-investment">R$ 0</strong>
+                </div>
+                <div class="flow-row">
+                  <span id="monthly-investment-label">Diferença mensal → leasing</span>
+                  <strong id="monthly-investment">—</strong>
+                </div>
               </div>
             </div>
           </section>
@@ -314,8 +328,8 @@
               <path d="M12 10v6M12 7h.01" />
             </svg>
             <p>
-              As duas opções usam o mesmo orçamento. A mais barata investe a
-              diferença; no fim do leasing, não há patrimônio no veículo.
+              A entrada fica investida no leasing e a diferença mensal vai para
+              a opção mais barata; ao fim do leasing, não há patrimônio no veículo.
             </p>
           </div>
         </aside>
@@ -333,7 +347,7 @@
           <article>
             <span>02</span>
             <h3>Equilibre o fluxo de caixa</h3>
-            <p>A opção que custa menos no início ou por mês investe cada real da diferença.</p>
+            <p>A entrada fica disponível no leasing e a opção mais barata investe a diferença mensal.</p>
           </article>
           <article>
             <span>03</span>

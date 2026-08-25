@@ -66,7 +66,9 @@ export function normalizeInputs(raw = {}) {
  * Compare financing and leasing over the financing term.
  *
  * Both choices are assigned the same initial and monthly cash budget. The
- * cheaper choice invests the difference. At the end, financing keeps the
+ * leasing path invests the financing down payment immediately, while the
+ * financing path invests any lease amount due at signing. Each month, the
+ * cheaper choice invests the cost difference. At the end, financing keeps the
  * depreciated vehicle while leasing is assumed to return it with no equity.
  */
 export function calculateComparison(rawInputs) {
@@ -100,12 +102,21 @@ export function calculateComparison(rawInputs) {
     leaseTax / 12 + costPerMonth(leaseInsurance, leaseInsurancePeriod);
   const financeMonthly = loanPayment + financeOperatingMonthly;
   const leaseAllInMonthly = leaseMonthly + leaseOperatingMonthly;
+  const monthlyDifference = Math.abs(financeMonthly - leaseAllInMonthly);
+  const monthlyInvestmentRecipient =
+    monthlyDifference < EPSILON
+      ? "none"
+      : financeMonthly < leaseAllInMonthly
+        ? "finance"
+        : "lease";
   const monthlyInvestmentRate = annualReturnToMonthlyRate(investmentReturn);
   const monthlyLoanRate = aprToMonthlyRate(financeApr);
   const monthlyValueFactor = Math.pow(1 - depreciation / 100, 1 / 12);
 
-  let financePortfolio = Math.max(0, leaseUpfront - downPayment);
-  let leasePortfolio = Math.max(0, downPayment - leaseUpfront);
+  const financeInitialInvestment = leaseUpfront;
+  const leaseInitialInvestment = downPayment;
+  let financePortfolio = financeInitialInvestment;
+  let leasePortfolio = leaseInitialInvestment;
   let financeContributions = financePortfolio;
   let leaseContributions = leasePortfolio;
   let loanBalance = principal;
@@ -184,11 +195,15 @@ export function calculateComparison(rawInputs) {
     leaseOperatingMonthly,
     financeMonthly,
     leaseAllInMonthly,
+    monthlyDifference,
+    monthlyInvestmentRecipient,
     financeTotalPaid: downPayment + financeMonthly * months,
     leaseTotalPaid: leaseUpfront + leaseAllInMonthly * months,
     vehicleValue,
     financePortfolio,
     leasePortfolio,
+    financeInitialInvestment,
+    leaseInitialInvestment,
     financeContributions,
     leaseContributions,
     financeInvestmentGrowth: financePortfolio - financeContributions,

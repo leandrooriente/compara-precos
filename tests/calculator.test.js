@@ -43,7 +43,7 @@ test("converts effective annual investment return to a monthly rate", () => {
   closeTo(Math.pow(1 + monthly, 12), 1.12, 1e-10);
 });
 
-test("invests the financing down-payment difference for the lease path", () => {
+test("makes the full financing down payment available to the lease path", () => {
   const result = calculateComparison({
     ...baseScenario,
     downPayment: 2000,
@@ -54,7 +54,24 @@ test("invests the financing down-payment difference for the lease path", () => {
 
   const expected = 2000 * Math.pow(1.12, 10 / 12);
   closeTo(result.leasePortfolio, expected);
+  assert.equal(result.leaseInitialInvestment, 2000);
   assert.equal(result.leaseContributions, 2000);
+});
+
+test("makes the lease amount due at signing available to the finance path", () => {
+  const result = calculateComparison({
+    ...baseScenario,
+    downPayment: 2000,
+    months: 10,
+    leaseMonthly: 1000,
+    leaseUpfront: 500,
+    investmentReturn: 0,
+  });
+
+  assert.equal(result.leaseInitialInvestment, 2000);
+  assert.equal(result.financeInitialInvestment, 500);
+  assert.equal(result.leasePortfolio, 2000);
+  assert.equal(result.financePortfolio, 500);
 });
 
 test("invests each monthly saving in whichever option is cheaper", () => {
@@ -66,6 +83,8 @@ test("invests each monthly saving in whichever option is cheaper", () => {
   });
 
   assert.equal(result.financeMonthly, 100);
+  assert.equal(result.monthlyDifference, 50);
+  assert.equal(result.monthlyInvestmentRecipient, "finance");
   assert.equal(result.financeContributions, 600);
   assert.equal(result.financePortfolio, 600);
   assert.equal(result.leasePortfolio, 0);

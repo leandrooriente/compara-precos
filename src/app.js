@@ -202,6 +202,23 @@ function render() {
   setText("#finance-portfolio", money.format(result.financePortfolio));
   setText("#lease-portfolio", money.format(result.leasePortfolio));
   setText("#vehicle-value", money.format(result.vehicleValue));
+  setText(
+    "#lease-initial-investment",
+    money.format(result.leaseInitialInvestment),
+  );
+  setText(
+    "#finance-initial-investment",
+    money.format(result.financeInitialInvestment),
+  );
+  setText("#monthly-investment", money.format(result.monthlyDifference));
+
+  const monthlyInvestmentLabel =
+    result.monthlyInvestmentRecipient === "finance"
+      ? "Diferença mensal → financiamento"
+      : result.monthlyInvestmentRecipient === "lease"
+        ? "Diferença mensal → leasing"
+        : "Sem diferença mensal";
+  setText("#monthly-investment-label", monthlyInvestmentLabel);
 
   const chart = document.querySelector("#chart");
   chart.innerHTML = chartMarkup(result.timeline, compactMoney);
