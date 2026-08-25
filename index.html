@@ -192,9 +192,9 @@
               </label>
             </div>
 
-            <div class="subsection-label"><span>Custos opcionais</span></div>
-            <div class="fields-grid">
-              <label class="field">
+            <div class="subsection-label"><span>Custos adicionais</span></div>
+            <div class="fields-grid three-columns">
+              <label class="field compact-field">
                 <span class="field-label">Impostos <small>use 0 se inclusos</small></span>
                 <span class="input-shell">
                   <span class="input-prefix" data-currency-symbol>R$</span>
@@ -202,7 +202,18 @@
                   <span class="input-suffix">ano</span>
                 </span>
               </label>
-              <label class="field">
+              <label class="field compact-field">
+                <span class="field-label">Manutenção <small>use 0 se inclusa</small></span>
+                <span class="input-shell">
+                  <span class="input-prefix" data-currency-symbol>R$</span>
+                  <input id="lease-maintenance" name="leaseMaintenance" type="number" min="0" step="100" value="0" />
+                  <select class="period-select" name="leaseMaintenancePeriod" aria-label="Periodicidade da manutenção do leasing">
+                    <option value="year">ano</option>
+                    <option value="month">mês</option>
+                  </select>
+                </span>
+              </label>
+              <label class="field compact-field">
                 <span class="field-label">Seguro <small>use 0 se incluso</small></span>
                 <span class="input-shell">
                   <span class="input-prefix" data-currency-symbol>R$</span>

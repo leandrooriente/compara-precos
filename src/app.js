@@ -8,6 +8,7 @@ const textFields = new Set([
   "financeInterestPeriod",
   "financeMaintenancePeriod",
   "financeInsurancePeriod",
+  "leaseMaintenancePeriod",
   "leaseInsurancePeriod",
 ]);
 
@@ -26,6 +27,8 @@ const defaultValues = {
   leaseMonthly: 3500,
   leaseUpfront: 0,
   leaseTax: 0,
+  leaseMaintenance: 0,
+  leaseMaintenancePeriod: "year",
   leaseInsurance: 0,
   leaseInsurancePeriod: "year",
   investmentReturn: 10,

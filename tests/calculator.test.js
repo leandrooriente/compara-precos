@@ -20,6 +20,8 @@ const baseScenario = {
   leaseMonthly: 1000,
   leaseUpfront: 0,
   leaseTax: 0,
+  leaseMaintenance: 0,
+  leaseMaintenancePeriod: "year",
   leaseInsurance: 0,
   investmentReturn: 0,
 };
@@ -107,13 +109,14 @@ test("includes annual taxes, maintenance, and insurance in monthly costs", () =>
     financeMaintenance: 600,
     financeInsurance: 1800,
     leaseTax: 600,
+    leaseMaintenance: 600,
     leaseInsurance: 1200,
   });
 
   assert.equal(result.financeOperatingMonthly, 300);
-  assert.equal(result.leaseOperatingMonthly, 150);
+  assert.equal(result.leaseOperatingMonthly, 200);
   assert.equal(result.financeMonthly, 1300);
-  assert.equal(result.leaseAllInMonthly, 1150);
+  assert.equal(result.leaseAllInMonthly, 1200);
 });
 
 test("supports monthly maintenance and insurance costs", () => {
@@ -125,14 +128,16 @@ test("supports monthly maintenance and insurance costs", () => {
     financeInsurance: 200,
     financeInsurancePeriod: "month",
     leaseTax: 1200,
+    leaseMaintenance: 300,
+    leaseMaintenancePeriod: "month",
     leaseInsurance: 150,
     leaseInsurancePeriod: "month",
   });
 
   assert.equal(result.financeOperatingMonthly, 900);
-  assert.equal(result.leaseOperatingMonthly, 250);
+  assert.equal(result.leaseOperatingMonthly, 550);
   assert.equal(result.financeMonthly, 1900);
-  assert.equal(result.leaseAllInMonthly, 1250);
+  assert.equal(result.leaseAllInMonthly, 1550);
 });
 
 test("compounds yearly depreciation over the comparison period", () => {

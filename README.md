@@ -9,7 +9,7 @@ Calculadora para comparar financiamento e leasing de veículos, considerando o c
 - Preço do veículo e prazo compartilhado pelo financiamento e pelo leasing
 - Entrada, taxa de juros mensal ou anual e depreciação do veículo financiado
 - IPVA e impostos anuais, com manutenção e seguro informados por mês ou por ano
-- Parcela mensal, valor inicial, impostos anuais e seguro opcional do leasing informado por mês ou por ano
+- Parcela mensal, valor inicial e impostos anuais, além de manutenção e seguro do leasing por mês ou por ano
 - Rentabilidade anual esperada configurável
 - Entrada disponível imediatamente para investir no leasing
 - Investimento da diferença mensal na opção com o menor custo total

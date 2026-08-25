@@ -62,6 +62,8 @@ export function normalizeInputs(raw = {}) {
     leaseMonthly: nonNegative(raw.leaseMonthly),
     leaseUpfront: nonNegative(raw.leaseUpfront),
     leaseTax: nonNegative(raw.leaseTax),
+    leaseMaintenance: nonNegative(raw.leaseMaintenance),
+    leaseMaintenancePeriod: normalizePeriod(raw.leaseMaintenancePeriod),
     leaseInsurance: nonNegative(raw.leaseInsurance),
     leaseInsurancePeriod: normalizePeriod(raw.leaseInsurancePeriod),
     investmentReturn: Math.max(-99.99, finite(raw.investmentReturn)),
@@ -94,6 +96,8 @@ export function calculateComparison(rawInputs) {
     leaseMonthly,
     leaseUpfront,
     leaseTax,
+    leaseMaintenance,
+    leaseMaintenancePeriod,
     leaseInsurance,
     leaseInsurancePeriod,
     investmentReturn,
@@ -111,7 +115,9 @@ export function calculateComparison(rawInputs) {
     costPerMonth(financeMaintenance, financeMaintenancePeriod) +
     costPerMonth(financeInsurance, financeInsurancePeriod);
   const leaseOperatingMonthly =
-    leaseTax / 12 + costPerMonth(leaseInsurance, leaseInsurancePeriod);
+    leaseTax / 12 +
+    costPerMonth(leaseMaintenance, leaseMaintenancePeriod) +
+    costPerMonth(leaseInsurance, leaseInsurancePeriod);
   const financeMonthly = loanPayment + financeOperatingMonthly;
   const leaseAllInMonthly = leaseMonthly + leaseOperatingMonthly;
   const monthlyDifference = Math.abs(financeMonthly - leaseAllInMonthly);
