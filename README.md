@@ -2,7 +2,7 @@
 
 Calculadora para comparar financiamento e carro por assinatura, considerando o custo completo de cada opção e o investimento automático da diferença.
 
-**Acesse:** [leandrooriente.github.io/compara-precos](https://leandrooriente.github.io/compara-precos/)
+**Acesse:** [compara.leandrooriente.com](https://compara.leandrooriente.com/)
 
 ## Recursos
 
