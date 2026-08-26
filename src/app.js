@@ -1,9 +1,20 @@
 import { calculateComparison } from "./calculator.js";
+import {
+  createCurrencyFormatters,
+  DEFAULT_CURRENCY,
+  DEFAULT_LANGUAGE,
+  describePeriod,
+  normalizeCurrency,
+  normalizeLanguage,
+  translate,
+} from "./i18n.js";
 
 const STORAGE_KEY = "compara-cenario-pt-br-v4";
-const CURRENCY = "BRL";
+const PREFERENCES_KEY = "compara-preferences-v1";
 const form = document.querySelector("#calculator-form");
 const resetButton = document.querySelector("#reset-button");
+const languageSelect = document.querySelector("#language-select");
+const currencySelect = document.querySelector("#currency-select");
 const textFields = new Set([
   "financeInterestPeriod",
   "financeMaintenancePeriod",
@@ -35,7 +46,28 @@ const defaultValues = {
   investmentReturn: 10.5,
 };
 
-const LOCALE = "pt-BR";
+let preferences = loadPreferences();
+
+function loadPreferences() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(PREFERENCES_KEY));
+    return {
+      language: normalizeLanguage(stored?.language),
+      currency: normalizeCurrency(stored?.currency),
+    };
+  } catch {
+    localStorage.removeItem(PREFERENCES_KEY);
+    return { language: DEFAULT_LANGUAGE, currency: DEFAULT_CURRENCY };
+  }
+}
+
+function savePreferences() {
+  try {
+    localStorage.setItem(PREFERENCES_KEY, JSON.stringify(preferences));
+  } catch {
+    // Language and currency still work when storage is unavailable.
+  }
+}
 
 function getScenario() {
   return Object.fromEntries(
@@ -72,32 +104,63 @@ function saveScenario(scenario) {
   }
 }
 
-function getFormatters() {
-  return {
-    money: new Intl.NumberFormat(LOCALE, {
-      style: "currency",
-      currency: CURRENCY,
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }),
-    compactMoney: new Intl.NumberFormat(LOCALE, {
-      style: "currency",
-      currency: CURRENCY,
-      notation: "compact",
-      maximumFractionDigits: 1,
-    }),
-  };
+function currencySymbol() {
+  const formatter = new Intl.NumberFormat(preferences.language, {
+    style: "currency",
+    currency: preferences.currency,
+    currencyDisplay: "narrowSymbol",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+  return (
+    formatter
+      .formatToParts(0)
+      .find((part) => part.type === "currency")?.value ?? preferences.currency
+  );
 }
 
-function describePeriod(months) {
-  if (months % 12 === 0) {
-    const years = months / 12;
-    return `${years} ${years === 1 ? "ano" : "anos"}`;
-  }
-  return `${months} meses`;
+function applyTranslations() {
+  const { language } = preferences;
+  document.documentElement.lang = language;
+  document.title = translate(language, "pageTitle");
+  document
+    .querySelectorAll("[data-i18n]")
+    .forEach((element) => {
+      element.textContent = translate(language, element.dataset.i18n);
+    });
+  document
+    .querySelectorAll("[data-i18n-html]")
+    .forEach((element) => {
+      element.innerHTML = translate(language, element.dataset.i18nHtml);
+    });
+  document
+    .querySelectorAll("[data-i18n-aria-label]")
+    .forEach((element) => {
+      element.setAttribute(
+        "aria-label",
+        translate(language, element.dataset.i18nAriaLabel),
+      );
+    });
+  document
+    .querySelectorAll("[data-i18n-content]")
+    .forEach((element) => {
+      element.setAttribute(
+        "content",
+        translate(language, element.dataset.i18nContent),
+      );
+    });
+  languageSelect.setAttribute("aria-label", translate(language, "language"));
+  currencySelect.setAttribute("aria-label", translate(language, "currency"));
+  document
+    .querySelectorAll(".currency-prefix")
+    .forEach((element) => {
+      element.textContent = currencySymbol();
+    });
 }
 
-function chartMarkup(timeline, compactMoney) {
+function chartMarkup(timeline, formatters) {
+  const { compactMoney, decimal } = formatters;
+  const { language } = preferences;
   const width = 430;
   const height = 178;
   const margin = { top: 8, right: 9, bottom: 24, left: 62 };
@@ -117,6 +180,10 @@ function chartMarkup(timeline, compactMoney) {
     timeline
       .map((point, index) => `${index === 0 ? "M" : "L"}${x(point.month).toFixed(2)},${y(point[key]).toFixed(2)}`)
       .join(" ");
+  const chartTick = (months) =>
+    months >= 12
+      ? `${decimal.format(months / 12)}${translate(language, "chartYearSuffix")}`
+      : `${Math.round(months)}${translate(language, "chartMonthSuffix")}`;
 
   const financePath = pathFor("financeNet");
   const leasePath = pathFor("leaseNet");
@@ -126,20 +193,8 @@ function chartMarkup(timeline, compactMoney) {
   const ticks = Array.from({ length: 4 }, (_, index) => min + (range * index) / 3).reverse();
   const xTicks = [
     { month: 0, label: "0" },
-    {
-      month: lastMonth / 2,
-      label:
-        lastMonth >= 24
-          ? `${(lastMonth / 24).toFixed(lastMonth % 24 === 0 ? 0 : 1).replace(".", ",")}a`
-          : `${Math.round(lastMonth / 2)}m`,
-    },
-    {
-      month: lastMonth,
-      label:
-        lastMonth >= 12
-          ? `${(lastMonth / 12).toFixed(lastMonth % 12 === 0 ? 0 : 1).replace(".", ",")}a`
-          : `${lastMonth}m`,
-    },
+    { month: lastMonth / 2, label: chartTick(lastMonth / 2) },
+    { month: lastMonth, label: chartTick(lastMonth) },
   ];
 
   return `
@@ -180,75 +235,79 @@ function setText(selector, value) {
 function render() {
   const scenario = getScenario();
   const result = calculateComparison(scenario);
-  const { money, compactMoney } = getFormatters();
-  const period = describePeriod(result.inputs.months);
+  const formatters = createCurrencyFormatters(
+    preferences.language,
+    preferences.currency,
+  );
+  const { money, compactMoney } = formatters;
+  const period = describePeriod(result.inputs.months, preferences.language);
   const verdict = document.querySelector("#verdict");
   const verdictTitle = verdict.querySelector("h2");
   const verdictCopy = verdict.querySelector(".verdict-copy");
 
-  setText(".result-kicker", `Após ${period}`);
+  setText(
+    ".result-kicker",
+    translate(preferences.language, "periodAfter", { period }),
+  );
   verdict.classList.toggle("lease-wins", result.winner === "lease");
 
   if (result.winner === "finance") {
-    verdictTitle.innerHTML = `Financiar deixa você com <strong>${money.format(result.advantage)} a mais.</strong>`;
+    verdictTitle.innerHTML = translate(preferences.language, "financeWins", {
+      advantage: money.format(result.advantage),
+    });
   } else if (result.winner === "lease") {
-    verdictTitle.innerHTML = `O carro por assinatura deixa você com <strong>${money.format(result.advantage)} a mais.</strong>`;
+    verdictTitle.innerHTML = translate(preferences.language, "leaseWins", {
+      advantage: money.format(result.advantage),
+    });
   } else {
-    verdictTitle.innerHTML = "Há um <strong>empate técnico.</strong>";
+    verdictTitle.innerHTML = translate(preferences.language, "tie");
   }
 
-  verdictCopy.textContent = `Investindo toda a diferença, o financiamento termina com ${money.format(result.financeNet)} e o carro por assinatura com ${money.format(result.leaseNet)}.`;
+  verdictCopy.textContent = translate(preferences.language, "verdictCopy", {
+    finance: money.format(result.financeNet),
+    lease: money.format(result.leaseNet),
+  });
 
   setText("#finance-net", money.format(result.financeNet));
   setText("#lease-net", money.format(result.leaseNet));
-  setText("#chart-period", `${result.inputs.months} meses`);
+  setText("#chart-period", period);
   setText("#finance-principal", money.format(result.principal));
   setText("#finance-payment", money.format(result.loanPayment));
   setText("#finance-monthly", money.format(result.financeMonthly));
   setText("#lease-monthly-result", money.format(result.leaseAllInMonthly));
   setText("#finance-total", money.format(result.financeTotalPaid));
   setText("#lease-total", money.format(result.leaseTotalPaid));
-  setText(
-    "#lease-break-even",
-    money.format(result.leaseBreakEvenMonthly),
-  );
+  setText("#lease-break-even", money.format(result.leaseBreakEvenMonthly));
   setText("#finance-portfolio", money.format(result.financePortfolio));
   setText("#lease-portfolio", money.format(result.leasePortfolio));
   setText("#vehicle-value", money.format(result.vehicleValue));
-  setText(
-    "#lease-initial-investment",
-    money.format(result.leaseInitialInvestment),
-  );
-  setText(
-    "#finance-initial-investment",
-    money.format(result.financeInitialInvestment),
-  );
+  setText("#lease-initial-investment", money.format(result.leaseInitialInvestment));
+  setText("#finance-initial-investment", money.format(result.financeInitialInvestment));
   const financeMonthlyInvestment =
-    result.monthlyInvestmentRecipient === "finance"
-      ? result.monthlyDifference
-      : 0;
+    result.monthlyInvestmentRecipient === "finance" ? result.monthlyDifference : 0;
   const leaseMonthlyInvestment =
-    result.monthlyInvestmentRecipient === "lease"
-      ? result.monthlyDifference
-      : 0;
-  setText(
-    "#finance-monthly-investment",
-    money.format(financeMonthlyInvestment),
-  );
+    result.monthlyInvestmentRecipient === "lease" ? result.monthlyDifference : 0;
+  setText("#finance-monthly-investment", money.format(financeMonthlyInvestment));
   setText("#lease-monthly-investment", money.format(leaseMonthlyInvestment));
 
   const chart = document.querySelector("#chart");
-  chart.innerHTML = chartMarkup(result.timeline, compactMoney);
+  chart.innerHTML = chartMarkup(result.timeline, { ...formatters, compactMoney });
   chart.setAttribute(
     "aria-label",
-    `Após ${period}, o financiamento termina com ${money.format(result.financeNet)} e o carro por assinatura com ${money.format(result.leaseNet)}.`,
+    translate(preferences.language, "chartSummary", {
+      period,
+      finance: money.format(result.financeNet),
+      lease: money.format(result.leaseNet),
+    }),
   );
 
   const downPayment = form.elements.namedItem("downPayment");
   downPayment.max = result.inputs.vehiclePrice;
   const invalidDownPayment = Number(downPayment.value) > result.inputs.vehiclePrice;
   downPayment.setCustomValidity(
-    invalidDownPayment ? "A entrada não pode ser maior que o preço do veículo." : "",
+    invalidDownPayment
+      ? translate(preferences.language, "downPaymentValidity")
+      : "",
   );
   downPayment
     .closest(".input-shell")
@@ -260,18 +319,16 @@ function render() {
     Number(downPayment.value),
     Number(form.elements.namedItem("leaseUpfront").value),
   );
-  const invalidInitialCapital =
-    Number(initialCapital.value) < requiredInitialCapital;
+  const invalidInitialCapital = Number(initialCapital.value) < requiredInitialCapital;
   initialCapital.setCustomValidity(
     invalidInitialCapital
-      ? "O capital inicial deve cobrir o maior desembolso inicial."
+      ? translate(preferences.language, "initialCapitalValidity")
       : "",
   );
   initialCapital
     .closest(".input-shell")
     .classList.toggle("is-invalid", invalidInitialCapital);
-  document.querySelector("#initial-capital-error").hidden =
-    !invalidInitialCapital;
+  document.querySelector("#initial-capital-error").hidden = !invalidInitialCapital;
 
   saveScenario(scenario);
 }
@@ -280,11 +337,28 @@ form.addEventListener("input", render);
 form.addEventListener("change", render);
 form.addEventListener("submit", (event) => event.preventDefault());
 
+languageSelect.addEventListener("change", () => {
+  preferences.language = normalizeLanguage(languageSelect.value);
+  savePreferences();
+  applyTranslations();
+  render();
+});
+
+currencySelect.addEventListener("change", () => {
+  preferences.currency = normalizeCurrency(currencySelect.value);
+  savePreferences();
+  applyTranslations();
+  render();
+});
+
 resetButton.addEventListener("click", () => {
   setScenario(defaultValues);
   localStorage.removeItem(STORAGE_KEY);
   render();
 });
 
+languageSelect.value = preferences.language;
+currencySelect.value = preferences.currency;
+applyTranslations();
 loadScenario();
 render();

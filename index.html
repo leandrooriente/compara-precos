@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
+      data-i18n-content="pageDescription"
       content="Compare financiamento e carro por assinatura, incluindo custos, depreciação e o investimento da diferença."
     />
     <meta name="theme-color" content="#171717" />
@@ -16,9 +17,28 @@
   <body>
     <main>
       <header class="hero">
-        <p class="kicker">Calculadora de decisão automotiva</p>
-        <h1>Comprar ou ter um carro por assinatura?</h1>
-        <p class="hero-copy">
+        <div class="hero-toolbar">
+          <p class="kicker" data-i18n="kicker">Calculadora de decisão automotiva</p>
+          <div class="preference-controls">
+            <label class="preference-field">
+              <span data-i18n="language">Idioma</span>
+              <select id="language-select" aria-label="Idioma">
+                <option value="pt-BR">Português (Brasil)</option>
+                <option value="en">English</option>
+              </select>
+            </label>
+            <label class="preference-field">
+              <span data-i18n="currency">Moeda</span>
+              <select id="currency-select" aria-label="Moeda">
+                <option value="BRL">BRL — R$</option>
+                <option value="EUR">EUR — €</option>
+                <option value="USD">USD — $</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <h1 data-i18n="heroTitle">Comprar ou ter um carro por assinatura?</h1>
+        <p class="hero-copy" data-i18n="heroCopy">
           Compare custos, patrimônio e investimentos no mesmo prazo. Informe os
           valores; o resultado é atualizado imediatamente.
         </p>
@@ -28,46 +48,46 @@
         <form id="calculator-form" class="inputs-panel">
           <div class="panel-toolbar">
             <div>
-              <p class="overline">Premissas</p>
-              <h2>Informe os valores</h2>
+              <p class="overline" data-i18n="assumptions">Premissas</p>
+              <h2 data-i18n="enterValues">Informe os valores</h2>
             </div>
-            <button id="reset-button" class="reset-button" type="button">Redefinir</button>
+            <button id="reset-button" class="reset-button" type="button" data-i18n="reset">Redefinir</button>
           </div>
 
           <section class="form-section shared-section" aria-labelledby="vehicle-title">
             <header class="section-header">
               <span class="section-number">01</span>
               <div>
-                <h3 id="vehicle-title">Veículo e prazo</h3>
-                <p>Premissas usadas nas duas opções.</p>
+                <h3 id="vehicle-title" data-i18n="vehicleAndTerm">Veículo e prazo</h3>
+                <p data-i18n="sharedAssumptions">Premissas usadas nas duas opções.</p>
               </div>
             </header>
 
             <div class="fields-grid three-columns">
               <label class="field">
-                <span class="field-label">Preço do veículo</span>
+                <span class="field-label" data-i18n="vehiclePrice">Preço do veículo</span>
                 <span class="input-shell">
-                  <span class="input-prefix">R$</span>
+                  <span class="input-prefix currency-prefix">R$</span>
                   <input id="vehicle-price" name="vehiclePrice" type="number" min="0" step="1000" value="133190" required />
                 </span>
               </label>
               <label class="field">
-                <span class="field-label">Prazo da comparação</span>
+                <span class="field-label" data-i18n="comparisonTerm">Prazo da comparação</span>
                 <span class="input-shell">
                   <input id="months" name="months" type="number" min="1" max="360" step="1" value="36" />
-                  <span class="input-suffix">meses</span>
+                  <span class="input-suffix" data-i18n="months">meses</span>
                 </span>
               </label>
               <label class="field">
-                <span class="field-label">Capital inicial disponível</span>
+                <span class="field-label" data-i18n="initialCapital">Capital inicial disponível</span>
                 <span class="input-shell">
-                  <span class="input-prefix">R$</span>
+                  <span class="input-prefix currency-prefix">R$</span>
                   <input id="initial-capital" name="initialCapital" type="number" min="0" step="1000" value="80000" aria-describedby="initial-capital-error" />
                 </span>
-                <small id="initial-capital-error" class="field-error" hidden>O capital deve cobrir o maior desembolso inicial.</small>
+                <small id="initial-capital-error" class="field-error" data-i18n="initialCapitalError" hidden>O capital deve cobrir o maior desembolso inicial.</small>
               </label>
             </div>
-            <p class="example-reference">
+            <p class="example-reference" data-i18n-html="exampleReference">
               <strong>Exemplo:</strong> Volkswagen Tera · Rio de Janeiro. Cada
               opção investe o capital que sobra após seu desembolso inicial.
             </p>
@@ -77,34 +97,34 @@
             <header class="section-header">
               <span class="section-number">02</span>
               <div>
-                <p class="option-label">Compra financiada</p>
-                <h3 id="finance-title">Financiamento</h3>
-                <p>Você termina o prazo com o veículo.</p>
+                <p class="option-label" data-i18n="financedPurchase">Compra financiada</p>
+                <h3 id="finance-title" data-i18n="financing">Financiamento</h3>
+                <p data-i18n="financingEquity">Você termina o prazo com o veículo.</p>
               </div>
             </header>
 
             <div class="fields-grid three-columns">
               <label class="field">
-                <span class="field-label">Entrada</span>
+                <span class="field-label" data-i18n="downPayment">Entrada</span>
                 <span class="input-shell">
-                  <span class="input-prefix">R$</span>
+                  <span class="input-prefix currency-prefix">R$</span>
                   <input id="down-payment" name="downPayment" type="number" min="0" step="1000" value="70000" aria-describedby="down-payment-error" />
                 </span>
-                <small id="down-payment-error" class="field-error" hidden>A entrada não pode superar o preço do veículo.</small>
+                <small id="down-payment-error" class="field-error" data-i18n="downPaymentError" hidden>A entrada não pode superar o preço do veículo.</small>
               </label>
               <label class="field">
-                <span class="field-label">Taxa de juros</span>
+                <span class="field-label" data-i18n="interestRate">Taxa de juros</span>
                 <span class="input-shell">
                   <input id="finance-apr" name="financeApr" type="number" min="0" step="0.000001" value="2.281829" />
                   <span class="input-suffix percent-suffix">%</span>
-                  <select class="period-select" name="financeInterestPeriod" aria-label="Periodicidade da taxa de juros">
-                    <option value="year">ano</option>
-                    <option value="month" selected>mês</option>
+                  <select class="period-select" name="financeInterestPeriod" aria-label="Periodicidade da taxa de juros" data-i18n-aria-label="interestRatePeriod">
+                    <option value="year" data-i18n="year">ano</option>
+                    <option value="month" data-i18n="month" selected>mês</option>
                   </select>
                 </span>
               </label>
               <label class="field">
-                <span class="field-label">Depreciação anual</span>
+                <span class="field-label" data-i18n="annualDepreciation">Depreciação anual</span>
                 <span class="input-shell">
                   <input id="depreciation" name="depreciation" type="number" min="0" max="100" step="0.5" value="12" />
                   <span class="input-suffix">%</span>
@@ -112,35 +132,35 @@
               </label>
             </div>
 
-            <div class="subsection-label">Custos adicionais</div>
+            <div class="subsection-label" data-i18n="additionalCosts">Custos adicionais</div>
             <div class="fields-grid three-columns">
               <label class="field">
-                <span class="field-label">Impostos e documentação</span>
+                <span class="field-label" data-i18n="taxesAndDocumentation">Impostos e documentação</span>
                 <span class="input-shell">
-                  <span class="input-prefix">R$</span>
+                  <span class="input-prefix currency-prefix">R$</span>
                   <input id="finance-tax" name="financeTax" type="number" min="0" step="0.01" value="5008" />
-                  <span class="input-suffix">ano</span>
+                  <span class="input-suffix" data-i18n="year">ano</span>
                 </span>
               </label>
               <label class="field">
-                <span class="field-label">Manutenção</span>
+                <span class="field-label" data-i18n="maintenance">Manutenção</span>
                 <span class="input-shell">
-                  <span class="input-prefix">R$</span>
+                  <span class="input-prefix currency-prefix">R$</span>
                   <input id="finance-maintenance" name="financeMaintenance" type="number" min="0" step="0.01" value="724.62" />
-                  <select class="period-select" name="financeMaintenancePeriod" aria-label="Periodicidade da manutenção">
-                    <option value="year">ano</option>
-                    <option value="month">mês</option>
+                  <select class="period-select" name="financeMaintenancePeriod" aria-label="Periodicidade da manutenção" data-i18n-aria-label="maintenancePeriod">
+                    <option value="year" data-i18n="year">ano</option>
+                    <option value="month" data-i18n="month">mês</option>
                   </select>
                 </span>
               </label>
               <label class="field">
-                <span class="field-label">Seguro</span>
+                <span class="field-label" data-i18n="insurance">Seguro</span>
                 <span class="input-shell">
-                  <span class="input-prefix">R$</span>
+                  <span class="input-prefix currency-prefix">R$</span>
                   <input id="finance-insurance" name="financeInsurance" type="number" min="0" step="0.01" value="5500" />
-                  <select class="period-select" name="financeInsurancePeriod" aria-label="Periodicidade do seguro do financiamento">
-                    <option value="year">ano</option>
-                    <option value="month">mês</option>
+                  <select class="period-select" name="financeInsurancePeriod" aria-label="Periodicidade do seguro do financiamento" data-i18n-aria-label="financeInsurancePeriod">
+                    <option value="year" data-i18n="year">ano</option>
+                    <option value="month" data-i18n="month">mês</option>
                   </select>
                 </span>
               </label>
@@ -151,62 +171,62 @@
             <header class="section-header">
               <span class="section-number">03</span>
               <div>
-                <p class="option-label">Assinatura</p>
-                <h3 id="lease-title">Carro por assinatura</h3>
-                <p>Você devolve o veículo ao fim do prazo.</p>
+                <p class="option-label" data-i18n="subscription">Assinatura</p>
+                <h3 id="lease-title" data-i18n="carSubscription">Carro por assinatura</h3>
+                <p data-i18n="subscriptionReturn">Você devolve o veículo ao fim do prazo.</p>
               </div>
             </header>
 
             <div class="fields-grid">
               <label class="field">
-                <span class="field-label">Mensalidade da assinatura</span>
+                <span class="field-label" data-i18n="subscriptionMonthly">Mensalidade da assinatura</span>
                 <span class="input-shell">
-                  <span class="input-prefix">R$</span>
+                  <span class="input-prefix currency-prefix">R$</span>
                   <input id="lease-monthly" name="leaseMonthly" type="number" min="0" step="0.01" value="2678.99" />
                 </span>
               </label>
               <label class="field">
-                <span class="field-label">Valor inicial <small>opcional</small></span>
+                <span class="field-label" data-i18n-html="upfrontAmount">Valor inicial <small>opcional</small></span>
                 <span class="input-shell">
-                  <span class="input-prefix">R$</span>
+                  <span class="input-prefix currency-prefix">R$</span>
                   <input id="lease-upfront" name="leaseUpfront" type="number" min="0" step="100" value="0" />
                 </span>
               </label>
             </div>
-            <p class="example-reference lease-reference">
+            <p class="example-reference lease-reference" data-i18n="leaseReference">
               Mensalidade de referência da Unidas. Confirme disponibilidade,
               quilometragem e condições atuais antes de decidir.
             </p>
 
-            <div class="subsection-label">Custos adicionais — use zero quando inclusos</div>
+            <div class="subsection-label" data-i18n="additionalCostsZero">Custos adicionais — use zero quando inclusos</div>
             <div class="fields-grid three-columns">
               <label class="field">
-                <span class="field-label">Impostos</span>
+                <span class="field-label" data-i18n="taxes">Impostos</span>
                 <span class="input-shell">
-                  <span class="input-prefix">R$</span>
+                  <span class="input-prefix currency-prefix">R$</span>
                   <input id="lease-tax" name="leaseTax" type="number" min="0" step="100" value="0" />
-                  <span class="input-suffix">ano</span>
+                  <span class="input-suffix" data-i18n="year">ano</span>
                 </span>
               </label>
               <label class="field">
-                <span class="field-label">Manutenção</span>
+                <span class="field-label" data-i18n="maintenance">Manutenção</span>
                 <span class="input-shell">
-                  <span class="input-prefix">R$</span>
+                  <span class="input-prefix currency-prefix">R$</span>
                   <input id="lease-maintenance" name="leaseMaintenance" type="number" min="0" step="100" value="0" />
-                  <select class="period-select" name="leaseMaintenancePeriod" aria-label="Periodicidade da manutenção do carro por assinatura">
-                    <option value="year">ano</option>
-                    <option value="month">mês</option>
+                  <select class="period-select" name="leaseMaintenancePeriod" aria-label="Periodicidade da manutenção do carro por assinatura" data-i18n-aria-label="leaseMaintenancePeriod">
+                    <option value="year" data-i18n="year">ano</option>
+                    <option value="month" data-i18n="month">mês</option>
                   </select>
                 </span>
               </label>
               <label class="field">
-                <span class="field-label">Seguro</span>
+                <span class="field-label" data-i18n="insurance">Seguro</span>
                 <span class="input-shell">
-                  <span class="input-prefix">R$</span>
+                  <span class="input-prefix currency-prefix">R$</span>
                   <input id="lease-insurance" name="leaseInsurance" type="number" min="0" step="100" value="0" />
-                  <select class="period-select" name="leaseInsurancePeriod" aria-label="Periodicidade do seguro do carro por assinatura">
-                    <option value="year">ano</option>
-                    <option value="month">mês</option>
+                  <select class="period-select" name="leaseInsurancePeriod" aria-label="Periodicidade do seguro do carro por assinatura" data-i18n-aria-label="leaseInsurancePeriod">
+                    <option value="year" data-i18n="year">ano</option>
+                    <option value="month" data-i18n="month">mês</option>
                   </select>
                 </span>
               </label>
@@ -217,20 +237,20 @@
             <header class="section-header">
               <span class="section-number">04</span>
               <div>
-                <h3 id="investment-title">Investimento da diferença</h3>
-                <p>Cada opção investe o capital que não utiliza.</p>
+                <h3 id="investment-title" data-i18n="investmentDifference">Investimento da diferença</h3>
+                <p data-i18n="investmentSubtitle">Cada opção investe o capital que não utiliza.</p>
               </div>
             </header>
 
             <div class="investment-setting">
               <label class="field return-field">
-                <span class="field-label">Retorno líquido anual esperado</span>
+                <span class="field-label" data-i18n="expectedReturn">Retorno líquido anual esperado</span>
                 <span class="input-shell">
                   <input id="investment-return" name="investmentReturn" type="number" min="-99.99" step="0.1" value="10.5" />
                   <span class="input-suffix">%</span>
                 </span>
               </label>
-              <p>
+              <p data-i18n="investmentExplanation">
                 O capital inicial restante é investido em cada opção. Todo mês,
                 a alternativa mais barata também investe a diferença de custo.
               </p>
@@ -238,22 +258,22 @@
 
             <div class="investment-table-wrap" aria-live="polite">
               <table class="investment-table">
-                <caption>Aportes automáticos</caption>
+                <caption data-i18n="automaticContributions">Aportes automáticos</caption>
                 <thead>
                   <tr>
-                    <th scope="col">Origem</th>
-                    <th scope="col" class="finance-column">Financiamento</th>
-                    <th scope="col" class="lease-column">Assinatura</th>
+                    <th scope="col" data-i18n="origin">Origem</th>
+                    <th scope="col" class="finance-column" data-i18n="financing">Financiamento</th>
+                    <th scope="col" class="lease-column" data-i18n="subscription">Assinatura</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <th scope="row">Inicial <small>capital menos desembolso</small></th>
+                    <th scope="row" data-i18n-html="initialContribution">Inicial <small>capital menos desembolso</small></th>
                     <td id="finance-initial-investment">R$ 10.000,00</td>
                     <td id="lease-initial-investment">R$ 80.000,00</td>
                   </tr>
                   <tr>
-                    <th scope="row">Mensal <small>diferença de custo</small></th>
+                    <th scope="row" data-i18n-html="monthlyContribution">Mensal <small>diferença de custo</small></th>
                     <td id="finance-monthly-investment">R$ 0</td>
                     <td id="lease-monthly-investment">R$ 0</td>
                   </tr>
@@ -263,89 +283,89 @@
           </section>
         </form>
 
-        <aside class="results-panel" aria-label="Resultado da comparação">
+        <aside class="results-panel" aria-label="Resultado da comparação" data-i18n-aria-label="comparisonResult">
           <section id="verdict" class="verdict" aria-live="polite">
-            <p class="result-kicker">Após 5 anos</p>
-            <h2>Calculando a melhor escolha…</h2>
-            <p class="verdict-copy">Ajuste os valores para comparar as duas opções.</p>
+            <p class="result-kicker" data-i18n="resultPeriodInitial">Após 5 anos</p>
+            <h2 data-i18n="calculating">Calculando a melhor escolha…</h2>
+            <p class="verdict-copy" data-i18n="adjustValues">Ajuste os valores para comparar as duas opções.</p>
           </section>
 
-          <section class="net-comparison" aria-label="Patrimônio final">
+          <section class="net-comparison" aria-label="Patrimônio final" data-i18n-aria-label="finalEquity">
             <div class="net-option finance-option">
-              <span>Financiamento</span>
+              <span data-i18n="financing">Financiamento</span>
               <strong id="finance-net">—</strong>
-              <small>patrimônio final</small>
+              <small data-i18n="finalEquity">patrimônio final</small>
             </div>
             <div class="net-option lease-option">
-              <span>Carro por assinatura</span>
+              <span data-i18n="carSubscription">Carro por assinatura</span>
               <strong id="lease-net">—</strong>
-              <small>patrimônio final</small>
+              <small data-i18n="finalEquity">patrimônio final</small>
             </div>
           </section>
 
           <section class="chart-card" aria-labelledby="chart-title">
             <div class="chart-heading">
               <div>
-                <p class="overline">Evolução</p>
-                <h3 id="chart-title">Patrimônio ao longo do tempo</h3>
+                <p class="overline" data-i18n="evolution">Evolução</p>
+                <h3 id="chart-title" data-i18n="equityOverTime">Patrimônio ao longo do tempo</h3>
               </div>
               <span id="chart-period">36 meses</span>
             </div>
-            <div id="chart" class="chart" role="img" aria-label="Patrimônio do financiamento e do carro por assinatura ao longo do tempo"></div>
+            <div id="chart" class="chart" role="img" aria-label="Patrimônio do financiamento e do carro por assinatura ao longo do tempo" data-i18n-aria-label="chartAria"></div>
             <div class="chart-legend">
-              <span><i class="finance-dot"></i> Veículo + investimentos</span>
-              <span><i class="lease-dot"></i> Investimentos da assinatura</span>
+              <span><i class="finance-dot"></i> <b data-i18n="vehicleAndInvestments">Veículo + investimentos</b></span>
+              <span><i class="lease-dot"></i> <b data-i18n="subscriptionInvestments">Investimentos da assinatura</b></span>
             </div>
           </section>
 
           <section class="breakdown" aria-labelledby="breakdown-title">
             <div class="breakdown-heading">
               <div>
-                <p class="overline">Comparação</p>
-                <h3 id="breakdown-title">Custos e valores finais</h3>
+                <p class="overline" data-i18n="comparison">Comparação</p>
+                <h3 id="breakdown-title" data-i18n="costsAndFinalValues">Custos e valores finais</h3>
               </div>
             </div>
             <table class="breakdown-table">
               <thead>
                 <tr>
-                  <th scope="col">Métrica</th>
-                  <th scope="col">Financ.</th>
-                  <th scope="col">Assinatura</th>
+                  <th scope="col" data-i18n="metric">Métrica</th>
+                  <th scope="col" data-i18n="financeShort">Financ.</th>
+                  <th scope="col" data-i18n="subscription">Assinatura</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">Valor financiado</th>
+                  <th scope="row" data-i18n="financedAmount">Valor financiado</th>
                   <td id="finance-principal">—</td>
                   <td>—</td>
                 </tr>
                 <tr>
-                  <th scope="row">Parcela do financiamento</th>
+                  <th scope="row" data-i18n="financePayment">Parcela do financiamento</th>
                   <td id="finance-payment">—</td>
                   <td>—</td>
                 </tr>
                 <tr>
-                  <th scope="row">Custo mensal</th>
+                  <th scope="row" data-i18n="monthlyCost">Custo mensal</th>
                   <td id="finance-monthly">—</td>
                   <td id="lease-monthly-result">—</td>
                 </tr>
                 <tr>
-                  <th scope="row">Desembolso total</th>
+                  <th scope="row" data-i18n="totalOutlay">Desembolso total</th>
                   <td id="finance-total">—</td>
                   <td id="lease-total">—</td>
                 </tr>
                 <tr>
-                  <th scope="row">Saldo investido</th>
+                  <th scope="row" data-i18n="investedBalance">Saldo investido</th>
                   <td id="finance-portfolio">—</td>
                   <td id="lease-portfolio">—</td>
                 </tr>
                 <tr>
-                  <th scope="row">Valor do veículo</th>
+                  <th scope="row" data-i18n="vehicleValue">Valor do veículo</th>
                   <td id="vehicle-value">—</td>
                   <td>—</td>
                 </tr>
                 <tr>
-                  <th scope="row">Assinatura de equilíbrio</th>
+                  <th scope="row" data-i18n="breakEvenSubscription">Assinatura de equilíbrio</th>
                   <td>—</td>
                   <td id="lease-break-even">—</td>
                 </tr>
@@ -353,7 +373,7 @@
             </table>
           </section>
 
-          <p class="method-note">
+          <p class="method-note" data-i18n="methodNote">
             No fim da assinatura, o veículo é devolvido sem gerar patrimônio.
             Os investimentos usam a mesma rentabilidade nas duas opções.
           </p>

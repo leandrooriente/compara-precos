@@ -67,6 +67,45 @@ select:focus-visible {
   text-transform: uppercase;
 }
 
+.hero-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.preference-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.preference-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.preference-field > span {
+  color: var(--muted);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.preference-field select {
+  height: 38px;
+  padding: 0 30px 0 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
 .hero h1 {
   max-width: 980px;
   margin: 14px 0 0;
@@ -626,6 +665,10 @@ select:focus-visible {
   display: inline-block;
 }
 
+.chart-legend b {
+  font-weight: inherit;
+}
+
 .finance-dot {
   background: var(--finance);
 }
@@ -712,6 +755,27 @@ select:focus-visible {
 
   .hero h1 {
     font-size: clamp(2.8rem, 15vw, 4.6rem);
+  }
+
+  .hero-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .preference-controls {
+    justify-content: flex-start;
+  }
+
+  .preference-field {
+    flex: 1 1 150px;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .preference-field select {
+    width: 100%;
+    font-size: 1rem;
   }
 
   .hero-copy {

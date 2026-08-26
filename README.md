@@ -14,7 +14,8 @@ Calculadora para comparar financiamento e carro por assinatura, considerando o c
 - Investimento do capital inicial restante em cada opção
 - Investimento da diferença mensal na opção com o menor custo total
 - Comparação do patrimônio final, gráfico mês a mês e mensalidade de equilíbrio
-- Valores em real brasileiro, formatados no padrão `pt-BR`
+- Moeda configurável entre BRL, EUR e USD, com formatação local apropriada
+- Interface em Português (Brasil) ou English, com preferências salvas no navegador
 - Interface responsiva, acessível e sem dependências
 
 ## Como a comparação funciona
@@ -35,7 +36,7 @@ patrimônio do financiamento = valor de revenda + investimentos
 patrimônio da assinatura     = investimentos
 ```
 
-A taxa de juros do financiamento pode ser informada por mês ou por ano. Quando anual, ela é tratada como uma taxa nominal dividida em 12 períodos mensais. A rentabilidade do investimento e a depreciação são convertidas em taxas mensais equivalentes.
+A taxa de juros do financiamento pode ser informada por mês ou por ano. Quando anual, ela é tratada como uma taxa nominal dividida em 12 períodos mensais. A rentabilidade do investimento e a depreciação são convertidas em taxas mensais equivalentes. A troca de moeda altera a unidade e a formatação dos valores informados; a calculadora não consulta cotações nem faz conversão cambial automática.
 
 O cenário inicial usa como exemplo um Volkswagen Tera no Rio de Janeiro, com R$ 80 mil de capital disponível, R$ 70 mil de entrada e assinatura mensal de R$ 2.678,99. Os R$ 5.008 anuais representam uma média de IPVA e licenciamento considerando a depreciação. A manutenção de R$ 724,62 corresponde à média das três primeiras revisões, e o seguro de R$ 5.500 é provisório. Confirme valores, disponibilidade e condições atuais antes de decidir.
 
