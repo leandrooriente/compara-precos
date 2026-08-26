@@ -79,12 +79,12 @@ export function normalizeInputs(raw = {}) {
 }
 
 /**
- * Compare financing and leasing over the financing term.
+ * Compare financing and a car subscription over the financing term.
  *
  * Both choices are assigned the same initial and monthly cash budget. Each
  * path invests the initial capital left after its own upfront payment. Each
  * month, the cheaper choice invests the cost difference. At the end, financing
- * keeps the depreciated vehicle while leasing is assumed to return it with no
+ * keeps the depreciated vehicle while the subscription returns it with no
  * equity.
  */
 export function calculateComparison(rawInputs) {

@@ -192,12 +192,12 @@ function render() {
   if (result.winner === "finance") {
     verdictTitle.innerHTML = `Financiar deixa você com <strong>${money.format(result.advantage)} a mais.</strong>`;
   } else if (result.winner === "lease") {
-    verdictTitle.innerHTML = `O leasing deixa você com <strong>${money.format(result.advantage)} a mais.</strong>`;
+    verdictTitle.innerHTML = `O carro por assinatura deixa você com <strong>${money.format(result.advantage)} a mais.</strong>`;
   } else {
     verdictTitle.innerHTML = "Há um <strong>empate técnico.</strong>";
   }
 
-  verdictCopy.textContent = `Investindo toda a diferença, o financiamento termina com ${money.format(result.financeNet)} e o leasing com ${money.format(result.leaseNet)}.`;
+  verdictCopy.textContent = `Investindo toda a diferença, o financiamento termina com ${money.format(result.financeNet)} e o carro por assinatura com ${money.format(result.leaseNet)}.`;
 
   setText("#finance-net", money.format(result.financeNet));
   setText("#lease-net", money.format(result.leaseNet));
@@ -241,7 +241,7 @@ function render() {
   chart.innerHTML = chartMarkup(result.timeline, compactMoney);
   chart.setAttribute(
     "aria-label",
-    `Após ${period}, o financiamento termina com ${money.format(result.financeNet)} e o leasing com ${money.format(result.leaseNet)}.`,
+    `Após ${period}, o financiamento termina com ${money.format(result.financeNet)} e o carro por assinatura com ${money.format(result.leaseNet)}.`,
   );
 
   const downPayment = form.elements.namedItem("downPayment");

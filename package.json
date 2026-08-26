@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Calculadora de financiamento ou leasing que investe a diferença.",
+  "description": "Calculadora de financiamento ou carro por assinatura que investe a diferença.",
   "scripts": {
     "dev": "python3 -m http.server 4173",
     "test": "node --test",

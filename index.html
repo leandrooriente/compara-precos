@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Compare financiamento e leasing de veículos, incluindo custos, depreciação e o investimento da diferença."
+      content="Compare financiamento e carro por assinatura, incluindo custos, depreciação e o investimento da diferença."
     />
     <meta name="theme-color" content="#171717" />
-    <title>Compara — Comprar ou fazer leasing?</title>
+    <title>Compara — Comprar ou ter um carro por assinatura?</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
     <script type="module" src="src/app.js"></script>
@@ -17,7 +17,7 @@
     <main>
       <header class="hero">
         <p class="kicker">Calculadora de decisão automotiva</p>
-        <h1>Comprar ou fazer leasing?</h1>
+        <h1>Comprar ou ter um carro por assinatura?</h1>
         <p class="hero-copy">
           Compare custos, patrimônio e investimentos no mesmo prazo. Informe os
           valores; o resultado é atualizado imediatamente.
@@ -151,8 +151,8 @@
             <header class="section-header">
               <span class="section-number">03</span>
               <div>
-                <p class="option-label">Contrato de leasing</p>
-                <h3 id="lease-title">Leasing</h3>
+                <p class="option-label">Assinatura</p>
+                <h3 id="lease-title">Carro por assinatura</h3>
                 <p>Você devolve o veículo ao fim do prazo.</p>
               </div>
             </header>
@@ -193,7 +193,7 @@
                 <span class="input-shell">
                   <span class="input-prefix">R$</span>
                   <input id="lease-maintenance" name="leaseMaintenance" type="number" min="0" step="100" value="0" />
-                  <select class="period-select" name="leaseMaintenancePeriod" aria-label="Periodicidade da manutenção do leasing">
+                  <select class="period-select" name="leaseMaintenancePeriod" aria-label="Periodicidade da manutenção do carro por assinatura">
                     <option value="year">ano</option>
                     <option value="month">mês</option>
                   </select>
@@ -204,7 +204,7 @@
                 <span class="input-shell">
                   <span class="input-prefix">R$</span>
                   <input id="lease-insurance" name="leaseInsurance" type="number" min="0" step="100" value="0" />
-                  <select class="period-select" name="leaseInsurancePeriod" aria-label="Periodicidade do seguro do leasing">
+                  <select class="period-select" name="leaseInsurancePeriod" aria-label="Periodicidade do seguro do carro por assinatura">
                     <option value="year">ano</option>
                     <option value="month">mês</option>
                   </select>
@@ -243,7 +243,7 @@
                   <tr>
                     <th scope="col">Origem</th>
                     <th scope="col" class="finance-column">Financiamento</th>
-                    <th scope="col" class="lease-column">Leasing</th>
+                    <th scope="col" class="lease-column">Assinatura</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -277,7 +277,7 @@
               <small>patrimônio final</small>
             </div>
             <div class="net-option lease-option">
-              <span>Leasing</span>
+              <span>Carro por assinatura</span>
               <strong id="lease-net">—</strong>
               <small>patrimônio final</small>
             </div>
@@ -291,10 +291,10 @@
               </div>
               <span id="chart-period">36 meses</span>
             </div>
-            <div id="chart" class="chart" role="img" aria-label="Patrimônio do financiamento e do leasing ao longo do tempo"></div>
+            <div id="chart" class="chart" role="img" aria-label="Patrimônio do financiamento e do carro por assinatura ao longo do tempo"></div>
             <div class="chart-legend">
               <span><i class="finance-dot"></i> Veículo + investimentos</span>
-              <span><i class="lease-dot"></i> Investimentos do leasing</span>
+              <span><i class="lease-dot"></i> Investimentos da assinatura</span>
             </div>
           </section>
 
@@ -310,7 +310,7 @@
                 <tr>
                   <th scope="col">Métrica</th>
                   <th scope="col">Financ.</th>
-                  <th scope="col">Leasing</th>
+                  <th scope="col">Assinatura</th>
                 </tr>
               </thead>
               <tbody>
@@ -354,8 +354,8 @@
           </section>
 
           <p class="method-note">
-            No fim do leasing, o veículo é devolvido sem gerar patrimônio. Os
-            investimentos usam a mesma rentabilidade nas duas opções.
+            No fim da assinatura, o veículo é devolvido sem gerar patrimônio.
+            Os investimentos usam a mesma rentabilidade nas duas opções.
           </p>
         </aside>
       </div>
